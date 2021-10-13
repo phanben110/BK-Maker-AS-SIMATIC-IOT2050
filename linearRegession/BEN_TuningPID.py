@@ -85,7 +85,45 @@ class TuningPID():
         self.xTestKi = np.array([self.kp,self.kd,self.k1,self.k2,self.k3],dtype=np.float32).T    
         self.xTestKd = np.array([self.kp,self.ki,self.k1,self.k2,self.k3],dtype=np.float32).T    
 
-    def beginTuning(self,kp,ki,kd,k1,k2,k3,q1=False,q2=False,q3=False,q4=False): 
+    def tuningPID(self):
+        self.preProcessData()
+        kp = self.predicted(self.modelKp, self.xTestKp )
+        self.kp=kp[0]
+        self.preProcessData()
+        ki = self.predicted(self.modelKi, self.xTestKi) 
+        self.ki=ki[0]
+        self.preProcessData()
+        kd = self.predicted(self.modelKd, self.xTestKd)
+        self.kd=kd[0]
+
+    def tuningIPD(self): 
+        self.preProcessData()
+        ki = self.predicted(self.modelKi, self.xTestKi )
+        self.ki=ki[0]
+
+        self.preProcessData()
+        kp = self.predicted(self.modelKp, self.xTestKp) 
+        self.kp=kp[0]
+
+        self.preProcessData()
+        kd = self.predicted(self.modelKd, self.xTestKd)
+        self.kd=kd[0]
+
+    def tuningDPI(self): 
+        self.preProcessData()
+        kd = self.predicted(self.modelKd, self.xTestKd )
+        self.kd=kd[0]
+
+        self.preProcessData()
+        kp = self.predicted(self.modelKp, self.xTestKp) 
+        self.kp=kp[0]
+
+        self.preProcessData()
+        ki = self.predicted(self.modelKi, self.xTestKi)
+        self.ki=ki[0]
+
+
+    def beginTuning(self,kp=None,ki=None,kd=None,k1=None,k2=None,k3=None,q1=False,q2=False,q3=False,q4=False): 
         self.kp=kp 
         self.ki=ki
         self.kd=kd
@@ -99,21 +137,28 @@ class TuningPID():
         self.q3=q3
         self.q4=q4 
         
-        # if q1 
-        # if q2 
-        # if q3 
-        # if q4  
-        self.preProcessData()
-        kp = self.predicted(self.modelKp, self.xTestKp )
-        print ( kp  )
-        print ( self.xTestKp )
+        #if q1 == True --> What can i do? 
+        if q1: 
+            print ( f"Before tuning kp = {self.kp}, ki = {self.ki}, kd = {self.kd}, Chosse Option 1" )
+            self.k1 = self.k1 - self.k1*0.1
+            self.tuningPID() 
+            print ( f"After tuning kp = {self.kp}, ki = {self.ki}, kd = {self.kd}" )
+
+        elif q2: 
+            pass 
+        elif q3: 
+            pass
+
+        #if q2 == True --> What can i do?  
+        #if q3 == True --> What can i do? 
+        #if q4 == True --> What can i do?   
 
 
 if __name__ == "__main__": 
     PID = TuningPID()
     PID.loadPIDmodel()
     
-    PID.beginTuning(12,12.6,7.6,8.6505,22.4136,0.0439)
+    PID.beginTuning(kp=12,ki=12.6,kd=7.6,k1=8.6505,k2=22.4136,k3=0.0439,q1=True)
 
 
 
