@@ -2,17 +2,26 @@ import numpy as np
 import matplotlib.pyplot as plt 
 import pandas as pd 
 import numpy as np  
-from neuralNetwork.BEN_model import linearRegression 
+from linearRegession.neuralNetwork.BEN_model import linearRegression 
 import torch 
 from torch.autograd import Variable
 
 class TuningPID():
     def __init__ (self,pathKp="models/kp.pt", pathKi="models/ki.pt", pathKd="models/kd.pt", useCuda=True, debug=True): 
+
+        """                                        
+        kp, ki, kd : is value of PID 
+        k1, k2, k3 : is the value after evaluation 
+            k1 : Settling time 
+            k2 : Overshoot 
+            k3 : Steady State Error 
+        q1, q2, q3, q4 : is the mode slection
+            q1 : Settling time 
+            q2 : Overshoot  
+            q3 : Steady State Error  
+            q4 : Stability 
         """
-        Kp, Ki, Kd : is value of PID 
-        K1, K2, K3 : is the value after evaluation 
-        Q1, Q2, Q3, Q4 : is the mode slection 
-        """
+
         self.kp = None 
         self.ki = None 
         self.kd = None 
@@ -139,10 +148,12 @@ class TuningPID():
         
         #if q1 == True --> What can i do? 
         if q1: 
-            print ( f"Before tuning kp = {self.kp}, ki = {self.ki}, kd = {self.kd}, Chosse Option 1" )
+            #print ( f"Before tuning kp = {self.kp}, ki = {self.ki}, kd = {self.kd}, Chosse Option 1" )
             self.k1 = self.k1 - self.k1*0.1
             self.tuningPID() 
-            print ( f"After tuning kp = {self.kp}, ki = {self.ki}, kd = {self.kd}" )
+            if self.debug:
+                print ( f"After tuning kp = {self.kp}, ki = {self.ki}, kd = {self.kd}" )
+            return self.kp, self.ki, self.kd 
 
         elif q2: 
             pass 
