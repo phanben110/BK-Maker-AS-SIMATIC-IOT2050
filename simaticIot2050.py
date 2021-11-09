@@ -27,9 +27,31 @@ finalID = cloud.getFinalID(table="Device")
 print (finalID)
 
 #send data to table Machine Learning 
-cloud.sendData(table="MachineLearning",id=26,name="Ben Dep Trai",online=True, kp=3.333,ki=4,kd=5, setPoint=34, controlBit=2)
+#cloud.sendData(table="MachineLearning",id=26,name="Ben Dep Trai",online=True, kp=3.333,ki=4,kd=5, setPoint=34, controlBit=2)
 
 #send data to table Device 
-cloud.sendData(table="Device",id=26,name="Ben Dep Trai",online=True, kp=3.333,ki=4,kd=5, k1=3.2, k2=3.3, k3=4.3, q1=True)
+#cloud.sendData(table="Device",id=26,name="Ben Dep Trai",online=True, kp=3.333,ki=4,kd=5, k1=3.2, k2=3.3, k3=4.3, q1=True)
 
+print ( cloud.sendData(table="ML",
+                       id=6,name="Ben Dep Trai",
+                       online=True, 
+                       kp=3.333,ki=4,kd=5,
+                       movePara=False,moveToPos=False,stop=False, autoTune=False,
+                       setpoint=3.2))
+print ( cloud.sendData(table="Device",
+                       id=6,name="Ben Dep Trai",
+                       online=True,
+                       busy=False,
+                       kp=3.333,ki=4,kd=5,
+                       k1=3, k2=3, k3=4,
+                       sp=2, pv=4.3, cv=3
+                       ))
+print ( cloud.sendData(table="App",
+                       id=6,name="Ben Dep Trai",
+                       online=True, 
+                       kp=3.333,ki=4,kd=5,
+                       ZN=False,ML=False,status="stop",
+                       cvMax = 3, cvMin=3, sp1 = 3, sp2 =3,
+                       q1= False, q2= False, q3= False
+                       ))
 
