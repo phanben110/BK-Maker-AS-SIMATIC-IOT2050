@@ -173,6 +173,9 @@ class DynamoDB():
         elif table == "App": 
             response= self.tableApp.scan(FilterExpression = Attr('ID').eq(id))
             return response["Items"][0]["object"]
+        elif table == "Stotage": 
+            response= self.tableStorage.scan(FilterExpression = Attr('ID').eq(id))
+            return response["Items"][0]["object"]
         else:
             return None
 
@@ -184,6 +187,8 @@ class DynamoDB():
             return self.tableML.item_count
         elif table == "App": 
             return self.tableApp.item_count
+        elif table == "Stotage": 
+            return self.tableStorage.item_count
         else: 
             return None 
 
@@ -202,32 +207,32 @@ if __name__ == '__main__':
     cloud = DynamoDB()
     print ( cloud.receiveData(table="App",id=1)) 
     print ( cloud.getFinalID(table="App")) 
-    print ( cloud.sendData(table="ML",
-                           id=6, currentID= 3, name="Ben Dep Trai",
-                           online=True, 
-                           kp=3.333,ki=4,kd=5,
-                           movePara=False,moveToPos=False,stop=False, autoTune=False,
-                           setpoint=3.2))
-    print ( cloud.sendData(table="Device",
-                           id=6,currentID=3,name="Ben Dep Trai",
-                           online=True,
-                           busy=False,
-                           kp=3.333,ki=4,kd=5,
-                           k1=3, k2=3, k3=4,
-                           sp=2, pv=4.3, cv=3
-                           ))
-    print ( cloud.sendData(table="App",
-                           id=6,name="Ben Dep Trai",
-                           online=True, 
-                           kp=3.333,ki=4,kd=5,
-                           ZN=False,ML=False,status="stop",
-                           cvMax = 3, cvMin=3, sp1 = 3, sp2 =3,
-                           q1= False, q2= False, q3= False
-                           ))
-    print ( cloud.sendData(table="Stotage",
-                           id=6,name="Ben Dep Trai",
-                           kp=3.333,ki=4,kd=5,
-                           k1=1, k2=2, k3=3
-                           ))
+    cloud.sendData(table="ML",
+                   id=6, currentID= 3, name="Ben Dep Trai",
+                   online=True, 
+                   kp=3.333,ki=4,kd=5,
+                   movePara=False,moveToPos=False,stop=False, autoTune=False,
+                   setpoint=3.2)
+    cloud.sendData(table="Device",
+                   id=6,currentID=3,name="Ben Dep Trai",
+                   online=True,
+                   busy=False,
+                   kp=3.333,ki=4,kd=5,
+                   k1=3, k2=3, k3=4,
+                   sp=2, pv=4.3, cv=3
+                   )
+    cloud.sendData(table="App",
+                   id=6,name="Ben Dep Trai",
+                   online=True, 
+                   kp=3.333,ki=4,kd=5,
+                   ZN=False,ML=False,status="stop",
+                   cvMax = 3, cvMin=3, sp1 = 3, sp2 =3,
+                   q1= False, q2= False, q3= False
+                   )
+    cloud.sendData(table="Stotage",
+                   id=6,name="Ben Dep Trai",
+                   kp=3.333,ki=4,kd=5,
+                   k1=1, k2=2, k3=3
+                   )
 
 
