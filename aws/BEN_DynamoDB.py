@@ -33,12 +33,14 @@ class DynamoDB():
         self.tableDevice = dynamodb.Table('Device') 
         self.tableML = dynamodb.Table('MachineLearning')
         self.tableApp = dynamodb.Table('App')
+        self.tableStorage = dynamodb.Table('Storage')
         #init data send in cloud 
         self.dataDevice = None 
         self.dataML = None
         self.dataApp = None 
+        self.dataStorage = None 
 
-    def sendData(self, table=None, id=None, name=None, online=True, 
+    def sendData(self, table=None, id=None, currentID=None, name=None, online=True, 
                  kp=None, ki=None, kd=None, 
                  k1=None, k2=None, k3=None, 
                  sp=None, pv=None, cv=None,  
@@ -56,6 +58,7 @@ class DynamoDB():
                 "Name": name,
                 "object": {
                     "online": online,
+                    "currentID": currentID,
                     "busy": busy,
                     "PID": {
                         "kp": str(kp),
@@ -83,6 +86,7 @@ class DynamoDB():
                 "Name": name,
                 "object": {
                     "online": online,
+                    "currentID": currentID,
                     "PID": {
                         "kp": str(kp),
                         "ki": str(ki),
@@ -133,6 +137,28 @@ class DynamoDB():
                 }
             }
             self.tableApp.put_item(Item=self.dataApp)
+            
+        elif table=="Stotage": 
+            self.dataStorage={
+                "ID": id,
+                "Name": name,
+                "object": {
+                    "PID": {
+                        "kp": str(kp), 
+                        "ki": str(ki),
+                        "kd": str(kd)},
+                    "quality": {
+                        "settlingTime": k1,
+                        "steadyStateError": k2,
+                        "overshoot": k3},
+                    "time": {
+                        "day": self.today(),
+                        "time": self.timeNow()}
+                }
+            }
+            self.tableStorage.put_item(Item=self.dataStorage)
+                                                        
+
 
 
 
@@ -174,16 +200,16 @@ class DynamoDB():
 
 if __name__ == '__main__': 
     cloud = DynamoDB()
-    print ( cloud.receiveData(table="App",id=110)) 
+    print ( cloud.receiveData(table="App",id=1)) 
     print ( cloud.getFinalID(table="App")) 
     print ( cloud.sendData(table="ML",
-                           id=6,name="Ben Dep Trai",
+                           id=6, currentID= 3, name="Ben Dep Trai",
                            online=True, 
                            kp=3.333,ki=4,kd=5,
                            movePara=False,moveToPos=False,stop=False, autoTune=False,
                            setpoint=3.2))
     print ( cloud.sendData(table="Device",
-                           id=6,name="Ben Dep Trai",
+                           id=6,currentID=3,name="Ben Dep Trai",
                            online=True,
                            busy=False,
                            kp=3.333,ki=4,kd=5,
@@ -198,4 +224,10 @@ if __name__ == '__main__':
                            cvMax = 3, cvMin=3, sp1 = 3, sp2 =3,
                            q1= False, q2= False, q3= False
                            ))
+    print ( cloud.sendData(table="Stotage",
+                           id=6,name="Ben Dep Trai",
+                           kp=3.333,ki=4,kd=5,
+                           k1=1, k2=2, k3=3
+                           ))
+
 
