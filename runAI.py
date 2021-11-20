@@ -16,16 +16,99 @@ PID.loadPIDmodel()
 cloud = cloudAWS()
 
 
-#---------Begin tuining--------------------
-kp,ki,kd = PID.beginTuning(kp=0.027992654591798782,ki=0.009446900337934494,kd=0.03778810054063797,k1=10.200000000000001,k2=7.506209012232492,k3=0.016573547601618034,q1=True)
-print ( kp,ki,kd )
-
+#finalID = cloud.getFinalID(table="App") 
 #----------Begin interact with cloudAWS--------------
 # receive data from cloud aws
-#dataDevice =  cloud.receiveData(table="Device",id=1)
-#dataDevice =  cloud.receiveData(table="ML",id=1)
-#print (dataDevice)
+dataApp =  cloud.receiveData(table="App",id=1)
+dataML =  cloud.receiveData(table="ML",id=1)
+dataDevice =  cloud.receiveData(table="Device",id=1)
+
+Kp = float(dataApp["PID"]["kp"])
+Ki = float(dataApp["PID"]["ki"])
+Kd = float(dataApp["PID"]["kd"])
+
+K1 = float(dataDevice["quality"]["settlingTime"])
+K2 = float(dataDevice["quality"]["overshoot"])
+K3 = float(dataDevice["quality"]["steadyStateError"] )
+
+Q1 = bool(dataApp["option"]["settlingTime"])
+Q2 = bool(dataApp["option"]["overshoot"])
+Q3 = bool(dataApp["option"]["steadyStateError"])
+
+setpoint = int(dataML["control"]["setpoint"])
+
+if setpoint == 150: 
+    setpoint = 200
+else : 
+    setpoint = 150
+
+idDevice = int(dataDevice["currentID"]) 
+print (f"Kp: {Kp}, Ki: {Ki}, Kd: {Kd}, K1: {K1}, K2: {K2}, K3: {K3}, Q1: {Q1}, Q2: {Q2}, Q3: {Q3}, ID: {idDevice}, setpoint: {setpoint}")
+
+
+
+#---------Begin tuining--------------------
+cloud.sendData(table="App",
+               id=1,name="Motor",
+               online=True, 
+               kp=Kp,ki=Ki,kd=Kd,
+               ZN=False,ML=False,status="ML Runing...",
+               cvMax = 3, cvMin=3, sp1 = 3, sp2 =3,
+               q1= False, q2= False, q3= False
+               )
+
+mlKp,mlKi,mlKd = PID.beginTuning(kp=Kp,ki=Ki,kd=Kd,k1=K1,k2=K2,k3=K3,q1=Q1, q2=Q2, q3=Q3)
+print ( mlKp, mlKi, mlKd )
+
+
+
+cloud.sendData(table="ML",
+               id=1, currentID=idDevice+1 , name="Motor_1",
+               online=True, 
+               kp=mlKp,ki=mlKi,kd=mlKd,
+               movePara=True,moveToPos=False,stop=False, autoTune=False,
+               setpoint=setpoint)
+print ("---------------send step 1---------------")
+time.sleep(2)
+
+
+cloud.sendData(table="ML",
+               id=1, currentID=idDevice +1  , name="Motor_1",
+               online=True, 
+               kp=mlKp,ki=mlKi,kd=mlKd,
+               movePara=False,moveToPos=False,stop=False, autoTune=False,
+               setpoint=setpoint)
+print ("---------------send step 1---------------")
+time.sleep(2)
+
+
+
+
+cloud.sendData(table="App",
+               id=1,name="Motor",
+               online=True, 
+               kp=Kp,ki=Ki,kd=Kd,
+               ZN=False,ML=False,status="Done",
+               cvMax = 3, cvMin=3, sp1 = 3, sp2 =3,
+               q1= False, q2= False, q3= False
+               )
+
+print ( "Done" )
+
+
+
+
+
+#cloud.sendData(table="App",
+#               id=1,name="Motor",
+#               online=True, 
+#               kp=Kp,ki=Ki,kd=Kd,
+#               ZN=False,ML=False,status="ML Runing...",
+#               cvMax = 3, cvMin=3, sp1 = 3, sp2 =3,
+#               q1= False, q2= False, q3= False
+#               )
 #
+
 ## get the final ID in the cloud 
 #finalID = cloud.getFinalID(table="Device") 
 #print (finalID)
