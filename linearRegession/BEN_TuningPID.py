@@ -148,18 +148,18 @@ class TuningPID():
         
         #if q1 == True --> What can i do? 
         if q1: 
-            #print ( f"Before tuning kp = {self.kp}, ki = {self.ki}, kd = {self.kd}, Chosse Option 1" )
-            self.k1 = self.k1 - self.k1*0.1
-            self.tuningPID() 
-            if self.debug:
-                print ( f"After tuning kp = {self.kp}, ki = {self.ki}, kd = {self.kd}" )
-            return self.kp, self.ki, self.kd 
+            self.k1 = self.k1 - self.k1*0.2
 
-        elif q2: 
-            pass 
-        elif q3: 
-            pass
+        if q2: 
+            self.k2 = self.k2 - self.k2*0.2
 
+        if q3: 
+            self.k3 = self.k3 - self.k3*0.2
+
+        self.tuningPID() 
+        if self.debug:
+            print ( f"After tuning kp = {self.kp}, ki = {self.ki}, kd = {self.kd} and k1 = {self.k1}, k2 = {self.k2}, k3 = {self.k3}" )
+        return self.kp, self.ki, self.kd 
         #if q2 == True --> What can i do?  
         #if q3 == True --> What can i do? 
         #if q4 == True --> What can i do?   
