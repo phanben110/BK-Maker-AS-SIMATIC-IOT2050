@@ -28,42 +28,70 @@ def setpointCalc():
         setpointV = 150
     return setpointV
 
-def sendDataAutotune(status,idDevice,kp,ki,kd):
+def sendDataAutotune(idDevice,status,kp,ki,kd,pid=False):
+    if pid == False:
+        setpoint = setpointCalc()
+        cloud.sendData(table="App",
+                       id=1,name="Motor",
+                       online=True, 
+                       kp=kp,ki=ki,kd=kd,
+                       ZN=False,ML=False,status=str(status),
+                       cvMax = 3, cvMin=3, sp1 = 3, sp2 =3,
+                       q1= False, q2= False, q3= False)
 
-    setpoint = setpointCalc()
-    cloud.sendData(table="App",
-                   id=1,name="Motor",
-                   online=True, 
-                   kp=kp,ki=ki,kd=kd,
-                   ZN=False,ML=False,status=status,
-                   cvMax = 3, cvMin=3, sp1 = 3, sp2 =3,
-                   q1= False, q2= False, q3= False)
+        time.sleep(2)
 
-    time.sleep(1)
+        cloud.sendData(table="ML",
+                       id=1, currentID=int(idDevice)+1  , name="Motor_1",
+                       online=True, 
+                       kp=kp,ki=ki,kd=kd,
+                       movePara=False,moveToPos=False,stop=False,autoTune=True,
+                       setpoint=setpoint)
+        time.sleep(2)
 
-    cloud.sendData(table="ML",
-                   id=1, currentID=idDevice+1  , name="Motor_1",
-                   online=True, 
-                   kp=kp,ki=ki,kd=kd,
-                   movePara=False,moveToPos=False,stop=False,autoTune=True,
-                   setpoint=setpoint)
-    time.sleep(2)
+        cloud.sendData(table="ML",
+                       id=1, currentID=int(idDevice) +1  , name="Motor_1",
+                       online=True, 
+                       kp=kp,ki=ki,kd=kd,
+                       movePara=True,moveToPos=False,stop=False,autoTune=True,
+                       setpoint=setpoint)
+        time.sleep(2)
 
-    cloud.sendData(table="ML",
-                   id=1, currentID=idDevice +1  , name="Motor_1",
-                   online=True, 
-                   kp=kp,ki=ki,kd=kd,
-                   movePara=True,moveToPos=False,stop=False,autoTune=True,
-                   setpoint=setpoint)
-    time.sleep(2)
+        cloud.sendData(table="ML",
+                       id=1, currentID=int(idDevice) +1  , name="Motor_1",
+                       online=True, 
+                       kp=kp,ki=ki,kd=kd,
+                       movePara=False,moveToPos=False,stop=False,autoTune=False,
+                       setpoint=setpoint)
+        time.sleep(1)
+    else:
+        setpoint = setpointCalc()
+        cloud.sendData(table="App",
+                       id=1,name="Motor",
+                       online=True, 
+                       kp=kp,ki=ki,kd=kd,
+                       ZN=False,ML=False,status=str(status),
+                       cvMax = 3, cvMin=3, sp1 = 3, sp2 =3,
+                       q1= False, q2= False, q3= False)
 
-    cloud.sendData(table="ML",
-                   id=1, currentID=idDevice +1  , name="Motor_1",
-                   online=True, 
-                   kp=kp,ki=ki,kd=kd,
-                   movePara=False,moveToPos=False,stop=False,autoTune=False,
-                   setpoint=setpoint)
-    time.sleep(1)
+        time.sleep(2)
+
+        cloud.sendData(table="ML",
+                       id=1, currentID=int(idDevice)+1  , name="Motor_1",
+                       online=True, 
+                       kp=kp,ki=ki,kd=kd,
+                       movePara=True,moveToPos=False,stop=False,autoTune=False,
+                       setpoint=setpoint)
+        time.sleep(2)
+
+        cloud.sendData(table="ML",
+                       id=1, currentID=int(idDevice) +1  , name="Motor_1",
+                       online=True, 
+                       kp=kp,ki=ki,kd=kd,
+                       movePara=False,moveToPos=False,stop=False,autoTune=False,
+                       setpoint=setpoint)
+        time.sleep(1)
+
 
 
 
@@ -75,6 +103,7 @@ statusZN0=True
 statusZN1=True 
 statusZN2=True
 statusZN3=True
+statusZN4=True
 
 while True :
     if check:
@@ -158,23 +187,29 @@ while True :
             
             print ( "Done" )
     elif runZN == True and runML == False: 
-
+        setpoint = setpointCalc()
         if check:
             print("***Step 2:Begin tuning PID by ZN")
             print (f"ID: {idDevice}, setpoint: {setpoint}")
 
         print("\r\n***step 3: ZN Begin...")
+        sendDataAutotune(idDevice,"ZNTime0",cuKp,cuKi,cuKd)
 
 
         check = False
         while statusZN1: 
             data1 = cloud.receiveData(table="Device",id=1)
+
+            K11 = float(data1["quality"]["settlingTime"])
+            K21 = float(data1["quality"]["overshoot"])
+
             kp1 = float( data1["PID"]["kp"])
             ki1 = float( data1["PID"]["ki"])
             kd1 = float( data1["PID"]["kd"])
 
             if cuKd != kd1 and cuKi != ki1: 
                 print("\r\n***step 3: ZN time 1 ...")
+
                 Ku = kp1/0.6
                 Tu = 1.2*Ku/ki1
 
@@ -182,34 +217,46 @@ while True :
                 Ki_PI = 1.75*Ku/Tu
                 Kd_PI = 0.105*Ku*Tu
 
-                sendDataAutotune(idDevice,"ZNTime1",Kp_PI,Ki_PI,Kd_PI)
+                sendDataAutotune(idDevice,"ZNTime1",Kp_PI,Ki_PI,Kd_PI,pid=True)
                 #run 
                 break 
         while statusZN2: 
             data2 = cloud.receiveData(table="Device",id=1)
-            kp2 = float( data2["PID"]["kp"])
-            ki2 = float( data2["PID"]["ki"])
-            kd2 = float( data2["PID"]["kd"])
 
-            if kp2 != kp1 and ki2 != ki1:
+            K12 = float(data2["quality"]["settlingTime"])
+            K22 = float(data2["quality"]["overshoot"])
+
+
+            if K11 != K12 and K21 != K22:
                 print("\r\n***step 4: ZN time 2 ...")
+
+                kp2 = float( data2["PID"]["kp"])
+                ki2 = float( data2["PID"]["ki"])
+                kd2 = float( data2["PID"]["kd"])
+
                 Ku = kp2/0.6
                 Tu = 1.2*Ku/ki2
 
                 Kp_SO = Ku/3
                 Ki_SO = (2/3)*Ku/Tu
                 Kd_SO = (1/9)*Ku/Tu
-                sendDataAutotune(idDevice,"ZNTime2",Kp_SO,Ki_SO,Kd_SO)
+                sendDataAutotune(idDevice,"ZNTime2",Kp_SO,Ki_SO,Kd_SO,pid=True)
                 break  
 
         while statusZN3: 
             data3 = cloud.receiveData(table="Device",id=1)
-            kp3 = float( data3["PID"]["kp"])
-            ki3 = float( data3["PID"]["ki"])
-            kd3 = float( data3["PID"]["kd"])
+
+            K13 = float(data3["quality"]["settlingTime"])
+            K23 = float(data3["quality"]["overshoot"])
+
             
-            if kp3 != kp2 and ki3 != ki2:
-                print("\r\n***step 4: ZN time 3 ...")
+            if K12 != K13 and K22 != K23:
+                print("\r\n***step 5: ZN time 3 ...")
+
+                kp3 = float( data3["PID"]["kp"])
+                ki3 = float( data3["PID"]["ki"])
+                kd3 = float( data3["PID"]["kd"])
+
                 #run 
                 Ku = kp3/0.6
                 Tu = 1.2*Ku/ki3
@@ -218,9 +265,33 @@ while True :
                 Ki_NO = (2/5)*Ku/Tu
                 Kd_NO = (1/15)*Ku/Tu
 
-                sendDataAutotune(idDevice,"ZNTime3",Kp_NO,Ki_NO,Kd_NO)
-
+                sendDataAutotune(idDevice,"ZNTime3",Kp_NO,Ki_NO,Kd_NO,pid=True)
                 break 
+
+        while statusZN4:
+            data4 = cloud.receiveData(table="Device",id=1)
+
+            K14 = float(data4["quality"]["settlingTime"])
+            K24 = float(data4["quality"]["overshoot"])
+
+            if K13 != K14 and K23 != K24:
+                kp4 = float( data4["PID"]["kp"])
+                ki4 = float( data4["PID"]["ki"])
+                kd4 = float( data4["PID"]["kd"])
+                cloud.sendData(table="App",
+                               id=1,name="Motor",
+                               online=True, 
+                               kp=kp4,ki=ki4,kd=kd4,
+                               ZN=False,ML=False,status="ZNDone",
+                               cvMax = 3, cvMin=3, sp1 = 3, sp2 =3,
+                               q1= False, q2= False, q3= False)
+
+                print("\r\n***Done!")
+
+                print("\r\n----------------------------------------------------------\r\n")
+
+                check = True
+                break
 
     else: 
         if check : 
