@@ -148,13 +148,14 @@ class TuningPID():
         
         #if q1 == True --> What can i do? 
         if q1: 
-            self.k1 = self.k1 - self.k1*0.2
+            self.k1 = self.k1 - self.k1*0.8
 
         if q2: 
-            self.k2 = self.k2 - self.k2*0.2
+            self.k2 = self.k2 - self.k2*0.5
+            #self.k1 = self.k1 + self.k1*1
 
         if q3: 
-            self.k3 = self.k3 - self.k3*0.2
+            self.k3 = self.k3 - self.k3*0.8
 
         self.tuningPID() 
         if self.debug:

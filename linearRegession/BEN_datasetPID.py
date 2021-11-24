@@ -34,8 +34,19 @@ class PIDDataset():
             #ID = json.loads(pid)
             #print ( res["PID"]["M"]["kp"]["N"] )
             ki = float(data["PID"]["M"]["ki"]["N"])
+            kp = float(data["PID"]["M"]["kp"]["N"])
+
+            kd = float(data["PID"]["M"]["kd"]["N"])
+            k3 = float(data["quality"]["M"]["steadyStateError"]["N"])
             check = float(data["quality"]["M"]["overshoot"]["N"]) 
+            if kp > 0.05: 
+                continue
+            if k3 > 8: 
+                continue
             if check > 50 or check < 1 or ki < 0.004:
+                continue
+            if kd == 0.03778810054063797 or kd < 0.035  or kd > 0.048: 
+                print ( kd )
                 continue
             self.kp = np.append(self.kp,float(data["PID"]["M"]["kp"]["N"]))  
             self.ki = np.append(self.ki,float(data["PID"]["M"]["ki"]["N"]))  
@@ -77,10 +88,10 @@ if __name__ =="__main__":
     x,y = pid.kdDataset()
     print ( x.shape )
     print ( y.shape )
-    print ( pid.k2 )
-    plt.scatter(pid.kp,pid.k3)
+    #print ( pid.k2 )
+    plt.scatter(pid.kd,pid.k2)
     plt.xlabel('kd')
-    plt.ylabel('settlingTime')
+    plt.ylabel('Overshoot')
     plt.show()
 
 #print (kp.shape) 
