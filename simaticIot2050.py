@@ -1,7 +1,7 @@
 #Import library custom for Tuining Machine Learning
 from linearRegession.BEN_TuningPID import TuningPID as TuningPIDML 
 #Import libray custom for send and receive data with AWS 
-from AWS.BEN_DynamoDB import DynamoDB as cloudAWS 
+from aws.BEN_DynamoDB import DynamoDB as cloudAWS 
 
 import time  
 from numpy import random 

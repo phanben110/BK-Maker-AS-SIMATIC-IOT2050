@@ -31,16 +31,6 @@ def setpointCalc():
 def sendDataAutotune(idDevice,status,kp,ki,kd,pid=False):
     if pid == False:
         setpoint = setpointCalc()
-        cloud.sendData(table="App",
-                       id=1,name="Motor",
-                       online=True, 
-                       kp=kp,ki=ki,kd=kd,
-                       ZN=False,ML=False,status=str(status),
-                       cvMax = 3, cvMin=3, sp1 = 3, sp2 =3,
-                       q1= False, q2= False, q3= False)
-
-        time.sleep(2)
-
         cloud.sendData(table="ML",
                        id=1, currentID=int(idDevice)+1  , name="Motor_1",
                        online=True, 
@@ -66,15 +56,6 @@ def sendDataAutotune(idDevice,status,kp,ki,kd,pid=False):
         time.sleep(1)
     else:
         setpoint = setpointCalc()
-        cloud.sendData(table="App",
-                       id=1,name="Motor",
-                       online=True, 
-                       kp=kp,ki=ki,kd=kd,
-                       ZN=False,ML=False,status=str(status),
-                       cvMax = 3, cvMin=3, sp1 = 3, sp2 =3,
-                       q1= False, q2= False, q3= False)
-
-        time.sleep(2)
 
         cloud.sendData(table="ML",
                        id=1, currentID=int(idDevice)+1  , name="Motor_1",
@@ -90,7 +71,7 @@ def sendDataAutotune(idDevice,status,kp,ki,kd,pid=False):
                        kp=kp,ki=ki,kd=kd,
                        movePara=False,moveToPos=False,stop=False,autoTune=False,
                        setpoint=setpoint)
-        time.sleep(1)
+        time.sleep(2)
 
 
 
@@ -197,6 +178,33 @@ while True :
 
 
         check = False
+        while statusZN0: 
+            data0 = cloud.receiveData(table="Device",id=1)
+
+            K10 = float(data0["quality"]["settlingTime"])
+            K20 = float(data0["quality"]["overshoot"])
+
+            kp0 = float( data0["PID"]["kp"])
+            ki0 = float( data0["PID"]["ki"])
+            kd0 = float( data0["PID"]["kd"])
+
+            if cuKd != kd0 and cuKi != ki0:
+                print("\r\n***step 3: ZN time 0 ...")
+
+                cloud.sendData(table="App",
+                               id=1,name="Motor",
+                               online=True, 
+                               kp=kp0,ki=ki0,kd=kd0,
+                               ZN=False,ML=False,status="ZNBegin",
+                               cvMax = 3, cvMin=3, sp1 = 3, sp2 =3,
+                               q1= False, q2= False, q3= False)
+
+                time.sleep(1)
+
+                sendDataAutotune(idDevice,"ZNTime0",kp0,ki0,kd0,pid=True)
+                #run
+                break
+
         while statusZN1: 
             data1 = cloud.receiveData(table="Device",id=1)
 
@@ -207,17 +215,29 @@ while True :
             ki1 = float( data1["PID"]["ki"])
             kd1 = float( data1["PID"]["kd"])
 
-            if cuKd != kd1 and cuKi != ki1: 
-                print("\r\n***step 3: ZN time 1 ...")
+            if K11 != K10 and K21 != K20:
+                print("\r\n***step 4: ZN time 1 ...")
+
+                cloud.sendData(table="App",
+                               id=1,name="Motor",
+                               online=True, 
+                               kp=kp0,ki=ki0,kd=kd0,
+                               ZN=False,ML=False,status="ZNTime0",
+                               cvMax = 3, cvMin=3, sp1 = 3, sp2 =3,
+                               q1= False, q2= False, q3= False)
+
+                time.sleep(1)
+
 
                 Ku = kp1/0.6
                 Tu = 1.2*Ku/ki1
 
                 Kp_PI = 0.7*Ku
                 Ki_PI = 1.75*Ku/Tu
-                Kd_PI = 0.105*Ku*Tu
+                Td_PI = 3*Tu/20
+                Kd_PI = Kp_PI/Td_PI
 
-                sendDataAutotune(idDevice,"ZNTime1",Kp_PI,Ki_PI,Kd_PI,pid=True)
+                sendDataAutotune(idDevice,"ZNTime0",Kp_PI,Ki_PI,Kd_PI,pid=True)
                 #run 
                 break 
         while statusZN2: 
@@ -228,7 +248,18 @@ while True :
 
 
             if K11 != K12 and K21 != K22:
-                print("\r\n***step 4: ZN time 2 ...")
+
+                cloud.sendData(table="App",
+                               id=1,name="Motor",
+                               online=True, 
+                               kp=kp1,ki=ki1,kd=kd1,
+                               ZN=False,ML=False,status="ZNTime1",
+                               cvMax = 3, cvMin=3, sp1 = 3, sp2 =3,
+                               q1= False, q2= False, q3= False)
+
+                time.sleep(1)
+
+                print("\r\n***step 5: ZN time 2 ...")
 
                 kp2 = float( data2["PID"]["kp"])
                 ki2 = float( data2["PID"]["ki"])
@@ -239,7 +270,8 @@ while True :
 
                 Kp_SO = Ku/3
                 Ki_SO = (2/3)*Ku/Tu
-                Kd_SO = (1/9)*Ku/Tu
+                Td_SO = Tu/3
+                Kd_SO = Kp_SO/Td_SO
                 sendDataAutotune(idDevice,"ZNTime2",Kp_SO,Ki_SO,Kd_SO,pid=True)
                 break  
 
@@ -251,7 +283,19 @@ while True :
 
             
             if K12 != K13 and K22 != K23:
-                print("\r\n***step 5: ZN time 3 ...")
+                print("\r\n***step 6: ZN time 3 ...")
+
+
+                cloud.sendData(table="App",
+                               id=1,name="Motor",
+                               online=True, 
+                               kp=kp2,ki=ki2,kd=kd2,
+                               ZN=False,ML=False,status="ZNTime2",
+                               cvMax = 3, cvMin=3, sp1 = 3, sp2 =3,
+                               q1= False, q2= False, q3= False)
+
+                time.sleep(1)
+
 
                 kp3 = float( data3["PID"]["kp"])
                 ki3 = float( data3["PID"]["ki"])
@@ -263,7 +307,8 @@ while True :
 
                 Kp_NO = 0.2*Ku
                 Ki_NO = (2/5)*Ku/Tu
-                Kd_NO = (1/15)*Ku/Tu
+                Td_NO = Tu/3
+                Kd_NO = Kp_NO/Td_NO
 
                 sendDataAutotune(idDevice,"ZNTime3",Kp_NO,Ki_NO,Kd_NO,pid=True)
                 break 
@@ -275,6 +320,17 @@ while True :
             K24 = float(data4["quality"]["overshoot"])
 
             if K13 != K14 and K23 != K24:
+
+                cloud.sendData(table="App",
+                               id=1,name="Motor",
+                               online=True, 
+                               kp=kp3,ki=ki3,kd=kd3,
+                               ZN=False,ML=False,status="ZNTime3",
+                               cvMax = 3, cvMin=3, sp1 = 3, sp2 =3,
+                               q1= False, q2= False, q3= False)
+
+                time.sleep(1)
+
                 kp4 = float( data4["PID"]["kp"])
                 ki4 = float( data4["PID"]["ki"])
                 kd4 = float( data4["PID"]["kd"])
