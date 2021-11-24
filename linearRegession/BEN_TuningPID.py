@@ -60,13 +60,13 @@ class TuningPID():
                 if self.debug: 
                     print(f"init model {pathModel} with cuda")
             else: 
-                modelKp = linearRegression(5, 1)
-                modelKp.load_state_dict(torch.load(pathModel), strict=False)
+                model = linearRegression(5, 1)
+                model.load_state_dict(torch.load(pathModel,map_location=torch.device('cpu')), strict=False)
                 if self.debug: 
                     print(f"init model {pathModel} with CPU")
         else: 
-            modelKp = linearRegression(5, 1)
-            modelKp.load_state_dict(torch.load(pathModel), strict=False)
+            model = linearRegression(5, 1)
+            model.load_state_dict(torch.load(pathModel,map_location=torch.device('cpu')), strict=False)
             if self.debug: 
                 print(f"init model {pathModel} with CPU")
 
@@ -98,12 +98,18 @@ class TuningPID():
         self.preProcessData()
         kp = self.predicted(self.modelKp, self.xTestKp )
         self.kp=kp[0]
+        if self.kp > 0.05 or self.kp < 0.0145: 
+            self.kp = 0.04 
         self.preProcessData()
         ki = self.predicted(self.modelKi, self.xTestKi) 
         self.ki=ki[0]
+        if self.ki > 0.013 or self.ki < 0.004: 
+            self.ki = 0.008
         self.preProcessData()
         kd = self.predicted(self.modelKd, self.xTestKd)
         self.kd=kd[0]
+        if self.kd > 0.045 or self.kd < 0.035: 
+            self.kp = 0.038 
 
     def tuningIPD(self): 
         self.preProcessData()
