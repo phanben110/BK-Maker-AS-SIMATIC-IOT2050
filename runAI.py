@@ -1,5 +1,6 @@
 #Import library custom for Tuining Machine Learning
 from linearRegession.BEN_TuningPID import TuningPID as TuningPIDML 
+from linearRegession.BEN_clutering import PIDDataset 
 #Import libray custom for send and receive data with AWS 
 from aws.BEN_DynamoDB import DynamoDB as cloudAWS 
 print ("***BK-MAKER AS Team")
@@ -15,6 +16,10 @@ PID = TuningPIDML(pathKp="linearRegession/models/kp.pt",pathKi="linearRegession/
 
 print ("***Load model AI...")
 PID.loadPIDmodel()
+cluPID = PIDDataset() 
+cluPID.loadDataset()
+
+
 
 #------------set up for cloudAWS ---------------------
 cloud = cloudAWS()
@@ -136,9 +141,13 @@ while True :
                            q1= False, q2= False, q3= False
                            )
             
-            mlKp,mlKi,mlKd = PID.beginTuning(kp=Kp,ki=Ki,kd=Kd,k1=K1,k2=K2,k3=K3,q1=Q1, q2=Q2, q3=Q3)
-            print ( mlKp, mlKi, mlKd )
-            
+            #mlKp,mlKi,mlKd = PID.beginTuning(kp=Kp,ki=Ki,kd=Kd,k1=K1,k2=K2,k3=K3,q1=Q1, q2=Q2, q3=Q3)
+            #print ( mlKp, mlKi, mlKd )
+            value = cluPID.beginTuning(K1=K1,K2=K2,K3=K3,q1=Q1,q2=Q2,q3=Q3)
+            print ( f"that is value predict {value}" )
+            mlKp = value[0]
+            mlKi = value[1]
+            mlKd = value[2]
             cloud.sendData(table="ML",
                            id=1, currentID=idDevice+1 , name="Motor_1",
                            online=True, 

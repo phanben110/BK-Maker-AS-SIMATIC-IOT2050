@@ -4,7 +4,7 @@ import numpy as np
 import json 
 # PID parameter
 class PIDDataset():
-    def __init__( self, pathDataset='data/results3.csv' ): 
+    def __init__( self, pathDataset='linearRegession/data/results3.csv' ): 
 
         self.kp = np.array([])
         self.ki = np.array([])
@@ -26,7 +26,7 @@ class PIDDataset():
 
     def loadDataset(self): 
 
-        self.pid = pd.read_csv('data/results3.csv')
+        self.pid = pd.read_csv('linearRegession/data/results3.csv')
         self.pid = np.array(self.pid)
         count = 0  
         for i, pid in enumerate(self.pid): 
