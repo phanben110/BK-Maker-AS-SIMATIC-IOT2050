@@ -4,7 +4,7 @@ import numpy as np
 import json 
 # PID parameter
 class PIDDataset():
-    def __init__( self, pathDataset='data/results3.csv' ): 
+    def __init__( self, pathDataset='linearRegession/data/results3.csv' ): 
 
         self.kp = np.array([])
         self.ki = np.array([])
@@ -26,7 +26,7 @@ class PIDDataset():
 
     def loadDataset(self): 
 
-        self.pid = pd.read_csv('data/results3.csv')
+        self.pid = pd.read_csv('linearRegession/data/results3.csv')
         self.pid = np.array(self.pid)
         count = 0  
         for i, pid in enumerate(self.pid): 
@@ -42,36 +42,20 @@ class PIDDataset():
                 k3 = float(data["quality"]["M"]["steadyStateError"]["N"])
                 k2 = float(data["quality"]["M"]["overshoot"]["N"]) 
                 k1 = float(data["quality"]["M"]["settlingTime"]["N"]) 
-               # if k1 > 20 or k1 < 0.0001:
-               #     print ( 1 )
-               #     continue
-               # if k2 > 20 or k2 < 0.0001:
-               #     print (2)
-               #     continue
-               # if k3 > 20 or k3 < 0.0001: 
-               #     print (3)
-               #     continue 
-               # if kp < 0.0002 or kp > 0.03:
-               #     print (4)
-               #     continue
-               # if kd < 0.0008 or kd > 0.0025:
-               #     print (5)
-               #     continue
-               # if ki < 0.098 or ki > 0.002: 
-               #     print (6)
-               #     continue
-
-                #if kp > 0.05: 
-                #    continue
-                if k1 > 10 or k1 < 0.0001:
+                if kp > 0.05: 
                     continue
-                if k2 > 10 or k2 < 0.0001:
+                if k1 > 10 or k1 < 0.001:
                     continue
-                if k3 > 10 or k3 < 0.0001: 
+                if k2 > 10 or k2 < 0.001:
+                    continue
+                if k3 > 10 or k3 < 0.001: 
                     continue 
-                #if kd < 0.01:
-                #    continue
+                if kd < 0.01:
+                    continue
                     
+                #if kd == 0.03778810054063797 or kd < 0.0035  or kd > 0.048: 
+                #    print ( kd )
+                #    continue
                 self.kp = np.append(self.kp,float(data["PID"]["M"]["kp"]["N"]))  
                 self.ki = np.append(self.ki,float(data["PID"]["M"]["ki"]["N"]))  
                 self.kd = np.append(self.kd,float(data["PID"]["M"]["kd"]["N"]))  
@@ -149,10 +133,10 @@ if __name__ =="__main__":
     #print ( pid.kp[n] )
     #print ( pid.ki[n] )
     #print ( pid.kd[n] )
-    plt.scatter(pid.kd,pid.k3)
-    plt.xlabel('kd')
-    plt.ylabel('Overshoot')
-    plt.show()
+    #plt.scatter(pid.kd,pid.k3)
+    #plt.xlabel('kd')
+    #plt.ylabel('Overshoot')
+    #plt.show()
 
 #print (kp.shape) 
 #print (ki.shape)
