@@ -138,7 +138,7 @@ class TuningPID():
         self.ki=ki[0]
 
 
-    def beginTuning(self,kp=None,ki=None,kd=None,k1=None,k2=None,k3=None,q1=False,q2=False,q3=False,q4=False): 
+    def beginTuning(self,kp=None,ki=None,kd=None,k1=None,k2=None,k3=None,q1=False,q2=False,q3=False,q4=False,k=0.8): 
         self.kp=kp 
         self.ki=ki
         self.kd=kd
@@ -154,19 +154,19 @@ class TuningPID():
         
         #if q1 == True --> What can i do? 
         if q1: 
-            self.k1 = self.k1 - self.k1*0.8
+            self.k1 = self.k1 - self.k1*k
 
         if q2: 
-            self.k2 = self.k2 - self.k2*0.5
+            self.k2 = self.k2 - self.k2*k
             #self.k1 = self.k1 + self.k1*1
 
         if q3: 
-            self.k3 = self.k3 - self.k3*0.8
+            self.k3 = self.k3 - self.k3*k
 
         self.tuningPID() 
         if self.debug:
             print ( f"After tuning kp = {self.kp}, ki = {self.ki}, kd = {self.kd} and k1 = {self.k1}, k2 = {self.k2}, k3 = {self.k3}" )
-        return self.kp, self.ki, self.kd 
+        return self.kp, self.ki, self.kd , self.k1, self.k2, self.k3 
         #if q2 == True --> What can i do?  
         #if q3 == True --> What can i do? 
         #if q4 == True --> What can i do?   

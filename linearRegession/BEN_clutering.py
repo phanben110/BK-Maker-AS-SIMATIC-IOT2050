@@ -44,11 +44,11 @@ class PIDDataset():
                 k1 = float(data["quality"]["M"]["settlingTime"]["N"]) 
                 if kp > 0.05: 
                     continue
-                if k1 > 20 or k1 < 0.0001:
+                if k1 > 10 or k1 < 0.001:
                     continue
-                if k2 > 20 or k2 < 0.0001:
+                if k2 > 10 or k2 < 0.001:
                     continue
-                if k3 > 20 or k3 < 0.0001: 
+                if k3 > 10 or k3 < 0.001: 
                     continue 
                 if kd < 0.01:
                     continue
