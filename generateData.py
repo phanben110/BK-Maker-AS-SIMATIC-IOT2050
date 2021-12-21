@@ -70,9 +70,9 @@ print ( f"current setpoint: {setpoint}" )
 #               k1=1, k2=2, k3=3
 #               )
 #
-Kp = 0.0342504
-Kd = 0.0377881
-Ki = 0.0094469
+Kp = 0.004442581906914711
+Kd = 0.0016897942405194044
+Ki = 0.0011265295324847102
 count = idDevice + 1 
 check=False
 am = 1
@@ -85,10 +85,10 @@ while True:
         setpoint = 150
     #setpoint = randint(100,250)
     timeBegin = time.time()
-    x=random.rand(3)/4
-    Kp = Kp + Kp*x[0]*am
-    Ki = Ki + Ki*x[1]*am 
-    Kd = Kd + Ki*x[2]*am
+    x=random.rand(3)/8
+    #Kp = Kp + Kp*x[0]*am
+    #Ki = Ki + Ki*x[1]*am 
+    #Kd = Kd + Ki*x[2]*am
     print (f"*****step 1: Current ID: {count}, Kp = {Kp}, Ki = {Ki}, Kd = {Kd}, setpoint: {setpoint}")
     
 

@@ -1,0 +1,184 @@
+[Servers]
+0\Name=Kepserver
+0\Connected=true
+0\ProjectServerId=0
+0\ServerUrl=opc.tcp://192.168.0.10:49320
+0\Server.ApplicationUri=
+0\Server.ProductUri=
+0\Server.ApplicationNameLocale=
+0\Server.ApplicationNameText=
+0\Server.ApplicationType=0
+0\Server.GatewayServerUri=
+0\Server.DiscoveryProfileUri=
+0\Server.NoOfDiscoveryUrls=0
+0\ServerCertificate=@ByteArray()
+0\MessageSecurityMode=1
+0\SecurityPolicy=http://opcfoundation.org/UA/SecurityPolicy#None
+0\NoOfUserIdentityTokens=0
+0\TransportProfileUri=
+0\SecurityLevel=0
+0\DisplayName=Kepserver
+0\ReverseConnect=false
+0\ClientEndpointUrl=
+0\UserTokenType=0
+0\SessionName=
+0\DiscoveryHost=
+0\UserName=
+0\StorePassword=false
+0\CertificateFile=
+0\PrivateKeyFile=
+0\Namespaces\0=http://opcfoundation.org/UA/
+0\Namespaces\1=urn:Admin:Kepware.KEPServerEX.V6:UA%20Server
+0\Namespaces\2=KEPServerEX
+
+[Documents]
+Data%20Access%20View\DocumentType=Data Access View
+Data%20Access%20View\DocumentSettings\headerState="@ByteArray(\0\0\0\xff\0\0\0\0\0\0\0\x1\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x3\xc4\0\0\0\t\x1\0\x1\0\0\0\0\0\0\0\0\0\0\0\0\0\x64\xff\xff\xff\xff\0\0\0\x84\0\0\0\0\0\0\0\x4\0\0\0,\0\0\0\x1\0\0\0\0\0\0\0\xc8\0\0\0\x2\0\0\0\0\0\0\0\xdc\0\0\0\x1\0\0\0\0\0\0\x1\xf4\0\0\0\x5\0\0\0\0)"
+Data%20Access%20View\DocumentSettings\SubscriptionSettings\publishingInterval=500
+Data%20Access%20View\DocumentSettings\SubscriptionSettings\lifetimeCount=2400
+Data%20Access%20View\DocumentSettings\SubscriptionSettings\maxKeepAliveCount=10
+Data%20Access%20View\DocumentSettings\SubscriptionSettings\maxNotificationsPerPublish=0
+Data%20Access%20View\DocumentSettings\SubscriptionSettings\priority=0
+Data%20Access%20View\DocumentSettings\SubscriptionSettings\publishingEnabled=true
+Data%20Access%20View\DocumentSettings\Items\000\000\DisplayName=Begin_autotune
+Data%20Access%20View\DocumentSettings\Items\000\000\NodeId="ns=2;s=AB PLC.MICRO850.Begin_autotune"
+Data%20Access%20View\DocumentSettings\Items\000\000\Status=2
+Data%20Access%20View\DocumentSettings\Items\000\000\MonitoringMode=2
+Data%20Access%20View\DocumentSettings\Items\000\000\MonitoringParameters\DiscardOldest=1
+Data%20Access%20View\DocumentSettings\Items\000\000\MonitoringParameters\QueueSize=1
+Data%20Access%20View\DocumentSettings\Items\000\000\MonitoringParameters\SamplingInterval=250
+Data%20Access%20View\DocumentSettings\Items\000\001\DisplayName=Current_Distance_mm
+Data%20Access%20View\DocumentSettings\Items\000\001\NodeId="ns=2;s=AB PLC.MICRO850.Current_Distance_mm"
+Data%20Access%20View\DocumentSettings\Items\000\001\Status=2
+Data%20Access%20View\DocumentSettings\Items\000\001\MonitoringMode=2
+Data%20Access%20View\DocumentSettings\Items\000\001\MonitoringParameters\DiscardOldest=1
+Data%20Access%20View\DocumentSettings\Items\000\001\MonitoringParameters\QueueSize=1
+Data%20Access%20View\DocumentSettings\Items\000\001\MonitoringParameters\SamplingInterval=250
+Data%20Access%20View\DocumentSettings\Items\000\002\DisplayName=Desired_Position
+Data%20Access%20View\DocumentSettings\Items\000\002\NodeId="ns=2;s=AB PLC.MICRO850.Desired_Position"
+Data%20Access%20View\DocumentSettings\Items\000\002\Status=2
+Data%20Access%20View\DocumentSettings\Items\000\002\MonitoringMode=2
+Data%20Access%20View\DocumentSettings\Items\000\002\MonitoringParameters\DiscardOldest=1
+Data%20Access%20View\DocumentSettings\Items\000\002\MonitoringParameters\QueueSize=1
+Data%20Access%20View\DocumentSettings\Items\000\002\MonitoringParameters\SamplingInterval=250
+Data%20Access%20View\DocumentSettings\Items\000\003\DisplayName=Desired_Position_IOT
+Data%20Access%20View\DocumentSettings\Items\000\003\NodeId="ns=2;s=AB PLC.MICRO850.Desired_Position_IOT"
+Data%20Access%20View\DocumentSettings\Items\000\003\Status=2
+Data%20Access%20View\DocumentSettings\Items\000\003\MonitoringMode=2
+Data%20Access%20View\DocumentSettings\Items\000\003\MonitoringParameters\DiscardOldest=1
+Data%20Access%20View\DocumentSettings\Items\000\003\MonitoringParameters\QueueSize=1
+Data%20Access%20View\DocumentSettings\Items\000\003\MonitoringParameters\SamplingInterval=250
+Data%20Access%20View\DocumentSettings\Items\000\004\DisplayName=Distance_mm
+Data%20Access%20View\DocumentSettings\Items\000\004\NodeId="ns=2;s=AB PLC.MICRO850.Distance_mm"
+Data%20Access%20View\DocumentSettings\Items\000\004\Status=2
+Data%20Access%20View\DocumentSettings\Items\000\004\MonitoringMode=2
+Data%20Access%20View\DocumentSettings\Items\000\004\MonitoringParameters\DiscardOldest=1
+Data%20Access%20View\DocumentSettings\Items\000\004\MonitoringParameters\QueueSize=1
+Data%20Access%20View\DocumentSettings\Items\000\004\MonitoringParameters\SamplingInterval=250
+Data%20Access%20View\DocumentSettings\Items\000\005\DisplayName=ID
+Data%20Access%20View\DocumentSettings\Items\000\005\NodeId="ns=2;s=AB PLC.MICRO850.ID"
+Data%20Access%20View\DocumentSettings\Items\000\005\Status=2
+Data%20Access%20View\DocumentSettings\Items\000\005\MonitoringMode=2
+Data%20Access%20View\DocumentSettings\Items\000\005\MonitoringParameters\DiscardOldest=1
+Data%20Access%20View\DocumentSettings\Items\000\005\MonitoringParameters\QueueSize=1
+Data%20Access%20View\DocumentSettings\Items\000\005\MonitoringParameters\SamplingInterval=250
+Data%20Access%20View\DocumentSettings\Items\000\006\DisplayName=Kd_IOT_DOWN_1
+Data%20Access%20View\DocumentSettings\Items\000\006\NodeId="ns=2;s=AB PLC.MICRO850.Kd_IOT_DOWN_1"
+Data%20Access%20View\DocumentSettings\Items\000\006\Status=2
+Data%20Access%20View\DocumentSettings\Items\000\006\MonitoringMode=2
+Data%20Access%20View\DocumentSettings\Items\000\006\MonitoringParameters\DiscardOldest=1
+Data%20Access%20View\DocumentSettings\Items\000\006\MonitoringParameters\QueueSize=1
+Data%20Access%20View\DocumentSettings\Items\000\006\MonitoringParameters\SamplingInterval=250
+Data%20Access%20View\DocumentSettings\Items\000\007\DisplayName=Kd_IOT_UP_1
+Data%20Access%20View\DocumentSettings\Items\000\007\NodeId="ns=2;s=AB PLC.MICRO850.Kd_IOT_UP_1"
+Data%20Access%20View\DocumentSettings\Items\000\007\Status=2
+Data%20Access%20View\DocumentSettings\Items\000\007\MonitoringMode=2
+Data%20Access%20View\DocumentSettings\Items\000\007\MonitoringParameters\DiscardOldest=1
+Data%20Access%20View\DocumentSettings\Items\000\007\MonitoringParameters\QueueSize=1
+Data%20Access%20View\DocumentSettings\Items\000\007\MonitoringParameters\SamplingInterval=250
+Data%20Access%20View\DocumentSettings\Items\000\008\DisplayName=Ki_IOT_DOWN_1
+Data%20Access%20View\DocumentSettings\Items\000\008\NodeId="ns=2;s=AB PLC.MICRO850.Ki_IOT_DOWN_1"
+Data%20Access%20View\DocumentSettings\Items\000\008\Status=2
+Data%20Access%20View\DocumentSettings\Items\000\008\MonitoringMode=2
+Data%20Access%20View\DocumentSettings\Items\000\008\MonitoringParameters\DiscardOldest=1
+Data%20Access%20View\DocumentSettings\Items\000\008\MonitoringParameters\QueueSize=1
+Data%20Access%20View\DocumentSettings\Items\000\008\MonitoringParameters\SamplingInterval=250
+Data%20Access%20View\DocumentSettings\Items\000\009\DisplayName=Ki_IOT_UP_1
+Data%20Access%20View\DocumentSettings\Items\000\009\NodeId="ns=2;s=AB PLC.MICRO850.Ki_IOT_UP_1"
+Data%20Access%20View\DocumentSettings\Items\000\009\Status=2
+Data%20Access%20View\DocumentSettings\Items\000\009\MonitoringMode=2
+Data%20Access%20View\DocumentSettings\Items\000\009\MonitoringParameters\DiscardOldest=1
+Data%20Access%20View\DocumentSettings\Items\000\009\MonitoringParameters\QueueSize=1
+Data%20Access%20View\DocumentSettings\Items\000\009\MonitoringParameters\SamplingInterval=250
+Data%20Access%20View\DocumentSettings\Items\000\010\DisplayName=Kp_IOT_DOWN_1
+Data%20Access%20View\DocumentSettings\Items\000\010\NodeId="ns=2;s=AB PLC.MICRO850.Kp_IOT_DOWN_1"
+Data%20Access%20View\DocumentSettings\Items\000\010\Status=2
+Data%20Access%20View\DocumentSettings\Items\000\010\MonitoringMode=2
+Data%20Access%20View\DocumentSettings\Items\000\010\MonitoringParameters\DiscardOldest=1
+Data%20Access%20View\DocumentSettings\Items\000\010\MonitoringParameters\QueueSize=1
+Data%20Access%20View\DocumentSettings\Items\000\010\MonitoringParameters\SamplingInterval=250
+Data%20Access%20View\DocumentSettings\Items\000\011\DisplayName=Kp_IOT_UP_1
+Data%20Access%20View\DocumentSettings\Items\000\011\NodeId="ns=2;s=AB PLC.MICRO850.Kp_IOT_UP_1"
+Data%20Access%20View\DocumentSettings\Items\000\011\Status=2
+Data%20Access%20View\DocumentSettings\Items\000\011\MonitoringMode=2
+Data%20Access%20View\DocumentSettings\Items\000\011\MonitoringParameters\DiscardOldest=1
+Data%20Access%20View\DocumentSettings\Items\000\011\MonitoringParameters\QueueSize=1
+Data%20Access%20View\DocumentSettings\Items\000\011\MonitoringParameters\SamplingInterval=250
+Data%20Access%20View\DocumentSettings\Items\000\012\DisplayName=MovePara
+Data%20Access%20View\DocumentSettings\Items\000\012\NodeId="ns=2;s=AB PLC.MICRO850.MovePara"
+Data%20Access%20View\DocumentSettings\Items\000\012\Status=2
+Data%20Access%20View\DocumentSettings\Items\000\012\MonitoringMode=2
+Data%20Access%20View\DocumentSettings\Items\000\012\MonitoringParameters\DiscardOldest=1
+Data%20Access%20View\DocumentSettings\Items\000\012\MonitoringParameters\QueueSize=1
+Data%20Access%20View\DocumentSettings\Items\000\012\MonitoringParameters\SamplingInterval=250
+Data%20Access%20View\DocumentSettings\Items\000\013\DisplayName=MoveToPosition_IOT_BT
+Data%20Access%20View\DocumentSettings\Items\000\013\NodeId="ns=2;s=AB PLC.MICRO850.MoveToPosition_IOT_BT"
+Data%20Access%20View\DocumentSettings\Items\000\013\Status=2
+Data%20Access%20View\DocumentSettings\Items\000\013\MonitoringMode=2
+Data%20Access%20View\DocumentSettings\Items\000\013\MonitoringParameters\DiscardOldest=1
+Data%20Access%20View\DocumentSettings\Items\000\013\MonitoringParameters\QueueSize=1
+Data%20Access%20View\DocumentSettings\Items\000\013\MonitoringParameters\SamplingInterval=250
+Data%20Access%20View\DocumentSettings\Items\000\014\DisplayName=MoveToPosition_IOT_STOP
+Data%20Access%20View\DocumentSettings\Items\000\014\NodeId="ns=2;s=AB PLC.MICRO850.MoveToPosition_IOT_STOP"
+Data%20Access%20View\DocumentSettings\Items\000\014\Status=2
+Data%20Access%20View\DocumentSettings\Items\000\014\MonitoringMode=2
+Data%20Access%20View\DocumentSettings\Items\000\014\MonitoringParameters\DiscardOldest=1
+Data%20Access%20View\DocumentSettings\Items\000\014\MonitoringParameters\QueueSize=1
+Data%20Access%20View\DocumentSettings\Items\000\014\MonitoringParameters\SamplingInterval=250
+Data%20Access%20View\DocumentSettings\Items\000\015\DisplayName=Online
+Data%20Access%20View\DocumentSettings\Items\000\015\NodeId="ns=2;s=AB PLC.MICRO850.Online"
+Data%20Access%20View\DocumentSettings\Items\000\015\Status=2
+Data%20Access%20View\DocumentSettings\Items\000\015\MonitoringMode=2
+Data%20Access%20View\DocumentSettings\Items\000\015\MonitoringParameters\DiscardOldest=1
+Data%20Access%20View\DocumentSettings\Items\000\015\MonitoringParameters\QueueSize=1
+Data%20Access%20View\DocumentSettings\Items\000\015\MonitoringParameters\SamplingInterval=250
+Data%20Access%20View\DocumentSettings\Items\000\016\DisplayName=Raw_Distance
+Data%20Access%20View\DocumentSettings\Items\000\016\NodeId="ns=2;s=AB PLC.MICRO850.Raw_Distance"
+Data%20Access%20View\DocumentSettings\Items\000\016\Status=2
+Data%20Access%20View\DocumentSettings\Items\000\016\MonitoringMode=2
+Data%20Access%20View\DocumentSettings\Items\000\016\MonitoringParameters\DiscardOldest=1
+Data%20Access%20View\DocumentSettings\Items\000\016\MonitoringParameters\QueueSize=1
+Data%20Access%20View\DocumentSettings\Items\000\016\MonitoringParameters\SamplingInterval=250
+Data%20Access%20View\DocumentSettings\Items\000\017\DisplayName=Status
+Data%20Access%20View\DocumentSettings\Items\000\017\NodeId="ns=2;s=AB PLC.MICRO850.Status"
+Data%20Access%20View\DocumentSettings\Items\000\017\Status=2
+Data%20Access%20View\DocumentSettings\Items\000\017\MonitoringMode=2
+Data%20Access%20View\DocumentSettings\Items\000\017\MonitoringParameters\DiscardOldest=1
+Data%20Access%20View\DocumentSettings\Items\000\017\MonitoringParameters\QueueSize=1
+Data%20Access%20View\DocumentSettings\Items\000\017\MonitoringParameters\SamplingInterval=250
+Data%20Access%20View\DocumentSettings\Items\000\018\DisplayName=Sts_SpeedFeedback
+Data%20Access%20View\DocumentSettings\Items\000\018\NodeId="ns=2;s=AB PLC.MICRO850.Sts_SpeedFeedback"
+Data%20Access%20View\DocumentSettings\Items\000\018\Status=2
+Data%20Access%20View\DocumentSettings\Items\000\018\MonitoringMode=2
+Data%20Access%20View\DocumentSettings\Items\000\018\MonitoringParameters\DiscardOldest=1
+Data%20Access%20View\DocumentSettings\Items\000\018\MonitoringParameters\QueueSize=1
+Data%20Access%20View\DocumentSettings\Items\000\018\MonitoringParameters\SamplingInterval=250
+
+[Attribute%20Plugin]
+Act_OnOff_Checked=true
+
+[Reference%20Plugin]
+Act_OnOff_Checked=true
+Act_ShowHierarchical_Checked=true
+Act_ShowNonHierarchical_Checked=true
+Cmb_BrowseDirection_State=0
