@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Configuration FileVersion="200.00.005" Name="Micro850" ElementGuid="83514b38-b7d8-4378-874c-74ead61cc31c" onlineBehavior="Always" TargetName="2080LC5024QWBJ" Comment="" SingleTextLine="" Password="" IsEnhanced="false" IsEnhancedTarget="true" IsIsagraf3="false">
+  <Connections>
+    <Connection NetworkName="CIPNetwork1">
+      <Parameter Name="CipPath" Value="&quot;&quot;" />
+    </Connection>
+  </Connections>
+  <Resource Name="Micro850" ElementGuid="20e53e7d-1075-437c-9e0f-4b3c701c9ca0" />
+</Configuration>

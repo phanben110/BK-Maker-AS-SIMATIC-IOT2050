@@ -1,0 +1,89 @@
+(****** QuickLD compiler *******************************)
+(****** Copyright Rockwell Automation Canada, Ltd ******)
+(****** ST *********************************************)
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,1
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB2 := TRUE ;
+IF __EDTB2 THEN
+(* Operator output on : > with __EDTB1 *)
+__EDTB1 := (KC > 0.0) ;
+ELSE
+__EDTB1 := FALSE ;
+END_IF ;
+__MO_GREAT_1 := __EDTB1 ;
+__EDTB3 := __EDTB1 ;
+IF __EDTB3 THEN
+KP := (  KC) ;
+END_IF ;
+__MO_1GAIN_1 := __EDTB3 ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,5
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB5 := TRUE ;
+IF __EDTB5 THEN
+(* Operator output on : > with __EDTB4 *)
+__EDTB4 := (TI > 0.0) ;
+ELSE
+__EDTB4 := FALSE ;
+END_IF ;
+__MO_GREAT_2 := __EDTB4 ;
+__EDTB6 := __EDTB4 ;
+IF __EDTB6 THEN
+KI := (KP / TI) ;
+END_IF ;
+__MO_DIV_1 := __EDTB6 ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,9
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB8 := TRUE ;
+IF __EDTB8 THEN
+(* Operator output on : > with __EDTB7 *)
+__EDTB7 := (TD > 0.0) ;
+ELSE
+__EDTB7 := FALSE ;
+END_IF ;
+__MO_GREAT_3 := __EDTB7 ;
+__EDTB9 := __EDTB7 ;
+IF __EDTB9 THEN
+KD := (KP / TD) ;
+END_IF ;
+__MO_DIV_2 := __EDTB9 ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Code for the end of File **************)
+__GL __LG0000 ;
+
+
+
+(*************** Local Symbols table *******************)
+(* __EDTB1 *)
+(* __EDTB2 *)
+(* __EDTB3 *)
+(* __EDTB4 *)
+(* __EDTB5 *)
+(* __EDTB6 *)
+(* __EDTB7 *)
+(* __EDTB8 *)
+(* __EDTB9 *)
+

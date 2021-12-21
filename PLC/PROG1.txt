@@ -1,0 +1,878 @@
+(****** QuickLD compiler *******************************)
+(****** Copyright Rockwell Automation Canada, Ltd ******)
+(****** ST *********************************************)
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,1
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+_IO_EM_DO_00 := NOT(EMERGENCY_BT) ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,3
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB1 := _IO_EM_DI_10 ;
+__EDTB2 := _IO_EM_DO_05 ;
+_IO_EM_DO_05 := (__EDTB1 OR __EDTB2) AND NOT(_IO_EM_DI_11) AND _IO_EM_DO_00 ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,6
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB3 := _IO_EM_DI_11 ;
+__EDTB4 := _IO_EM_DO_06 ;
+_IO_EM_DO_06 := (__EDTB3 OR __EDTB4) AND NOT(_IO_EM_DI_10) AND _IO_EM_DO_00 ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,9
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+; (*Pulse detection on : MOVETOPOSITION_MODE with __MEMO__1__MOVETOPOSITION_MODE *)
+__EDTB5 := (MOVETOPOSITION_MODE AND NOT(__MEMO__1__MOVETOPOSITION_MODE)) ;
+; (*Pulse detection on : MANUALMODE with __MEMO__2__MANUALMODE *)
+__EDTB6 := (MANUALMODE AND NOT(__MEMO__2__MANUALMODE)) ;
+__EDTB7 := (__EDTB5 OR __EDTB6) ;
+__EDTB8 := CMD_START ;
+CMD_START := (__EDTB7 OR __EDTB8) AND NOT(CMD_STOP) ;
+
+(*************** Code for the end of Rung **************)
+__MEMO__1__MOVETOPOSITION_MODE := MOVETOPOSITION_MODE ; (*Pulse detection on : MOVETOPOSITION_MODE with __MEMO__1__MOVETOPOSITION_MODE *)
+__MEMO__2__MANUALMODE := MANUALMODE ; (*Pulse detection on : MANUALMODE with __MEMO__2__MANUALMODE *)
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,13
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+; (*Fall detection on  : MANUALMODE with __MEMO__3__MANUALMODE *)
+__EDTB9 := (__MEMO__3__MANUALMODE AND NOT(MANUALMODE)) ;
+__EDTB10 := MOVETOPOSITION_STOP ;
+; (*Fall detection on  : MOVETOPOSITION_MODE with __MEMO__4__MOVETOPOSITION_MODE *)
+__EDTB11 := (__MEMO__4__MOVETOPOSITION_MODE AND NOT(MOVETOPOSITION_MODE)) ;
+__EDTB12 := TIMER_STOP.Q ;
+; (*Pulse detection on : AUTOTUNE_STOP with __MEMO__5__AUTOTUNE_STOP *)
+__EDTB13 := (AUTOTUNE_STOP AND NOT(__MEMO__5__AUTOTUNE_STOP)) ;
+__EDTB14 := (__EDTB12 OR __EDTB13) ;
+__EDTB15 := (__EDTB11 OR __EDTB14) ;
+__EDTB16 := (__EDTB10 OR __EDTB15) ;
+CMD_STOP := (__EDTB9 OR __EDTB16) ;
+
+(*************** Code for the end of Rung **************)
+__MEMO__3__MANUALMODE := MANUALMODE ; (*Fall detection on  : MANUALMODE with __MEMO__3__MANUALMODE *)
+__MEMO__4__MOVETOPOSITION_MODE := MOVETOPOSITION_MODE ; (*Fall detection on  : MOVETOPOSITION_MODE with __MEMO__4__MOVETOPOSITION_MODE *)
+__MEMO__5__AUTOTUNE_STOP := AUTOTUNE_STOP ; (*Pulse detection on : AUTOTUNE_STOP with __MEMO__5__AUTOTUNE_STOP *)
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,19
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+; (*Fall detection on  : MOVETOPOSITION_MODE with __MEMO__6__MOVETOPOSITION_MODE *)
+__EDTB17 := (__MEMO__6__MOVETOPOSITION_MODE AND NOT(MOVETOPOSITION_MODE)) ;
+__EDTB18 := STOP_MODE ;
+__EDTB19 := (__EDTB17 OR __EDTB18) AND NOT(TIMER_STOP.Q) ;
+STOP_MODE := __EDTB19 ;
+(* FB call: TON *)
+Timer_stop(__EDTB19, T#50MS) ;
+__EDTB20 := Timer_stop.Q ;
+
+(*************** Code for the end of Rung **************)
+__MEMO__6__MOVETOPOSITION_MODE := MOVETOPOSITION_MODE ; (*Fall detection on  : MOVETOPOSITION_MODE with __MEMO__6__MOVETOPOSITION_MODE *)
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,23
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+(* FB call: RA_PFx_ENET_STS_CMD *)
+RA_PFx_ENET_STS_CMD_2(_IO_EM_DO_00, CMD_IPADDRESS, CMD_UPDATERATE_MS, CMD_ENETCTRLTO_SEC, CMD_STOP, CMD_START, CMD_JOG, CMD_CLRFAULT, CMD_SETFWD, CMD_SETREV, CMD_SPEEDREF, CMD_DECELTIME1, CMD_DECELTIME1) ;
+STS_FBERROR := RA_PFx_ENET_STS_CMD_2.FBError ;
+STS_COMMLOSS := RA_PFx_ENET_STS_CMD_2.CommLoss ;
+STS_DRIVETYPE := RA_PFx_ENET_STS_CMD_2.DriveType ;
+STS_DRIVEFAULT := RA_PFx_ENET_STS_CMD_2.DriveFault ;
+STS_FAULTCODE := RA_PFx_ENET_STS_CMD_2.FaultCode ;
+STS_READY := RA_PFx_ENET_STS_CMD_2.Ready ;
+STS_ACTIVE := RA_PFx_ENET_STS_CMD_2.Active ;
+STS_CMDFWD := RA_PFx_ENET_STS_CMD_2.CmdFwd ;
+STS_CMDREV := RA_PFx_ENET_STS_CMD_2.CmdRev ;
+STS_ATREF := RA_PFx_ENET_STS_CMD_2.AtRef ;
+STS_CMDSPEED := RA_PFx_ENET_STS_CMD_2.CmdSpeed ;
+STS_SPEEDFEEDBACK := RA_PFx_ENET_STS_CMD_2.SpeedFeedback ;
+STS_OUTPUTCURRENT := RA_PFx_ENET_STS_CMD_2.OutputCurrent ;
+STS_DCBUSVOLTAGE := RA_PFx_ENET_STS_CMD_2.DCBusVoltage ;
+STS_OUTPUTVOLTAGE := RA_PFx_ENET_STS_CMD_2.OutputVoltage ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,40
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+(* FB call: HSC *)
+HSC_1(_IO_EM_DO_00, MYCOMMAND, MYAPPDATA, MYINFO, MYPLS, 0) ;
+HSCSTATUS := HSC_1.Sts ;
+__MO_HSC_1 := _IO_EM_DO_00 ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Rung **********************************)
+(*Support HSC*)
+__STEPPRAGMA
+0,47
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB21 := TRUE ;
+IF __EDTB21 THEN
+REALHSCACCUM := ANY_TO_REAL(MYAPPDATA.ACCUMULATOR) ;
+END_IF ;
+__MO_ANY_TO_REAL_1 := __EDTB21 ;
+__EDTB22 := __EDTB21 ;
+IF __EDTB22 THEN
+ABSREALHSCACCUM := ABS(REALHSCACCUM) ;
+END_IF ;
+__MO_ABS_1 := __EDTB22 ;
+__EDTB23 := __EDTB22 ;
+IF __EDTB23 THEN
+ABSDINTHSCACCUM := ANY_TO_DINT(ABSREALHSCACCUM) ;
+END_IF ;
+__MO_ANY_TO_DINT_1 := __EDTB23 ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Rung **********************************)
+(*RESET HSC (  XOA XUNG TICH LUY VA MOVE 4 VAO MYCOMMAND)*)
+__STEPPRAGMA
+0,50
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+; (*Pulse detection on : RESETHSC with __MEMO__7__RESETHSC *)
+__EDTB24 := (RESETHSC AND NOT(__MEMO__7__RESETHSC)) ;
+IF __EDTB24 THEN
+MYAPPDATA.ACCUMULATOR := (  -4860) ;
+END_IF ;
+__MO_1GAIN_1 := __EDTB24 ;
+__EDTB25 := __EDTB24 ;
+IF __EDTB25 THEN
+MYCOMMAND := (  4) ;
+END_IF ;
+__MO_1GAIN_2 := __EDTB25 ;
+
+(*************** Code for the end of Rung **************)
+__MEMO__7__RESETHSC := RESETHSC ; (*Pulse detection on : RESETHSC with __MEMO__7__RESETHSC *)
+
+
+(*************** Rung **********************************)
+(*Convert encoder pulse to position*)
+__STEPPRAGMA
+0,53
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB26 := TRUE ;
+IF __EDTB26 THEN
+RAWPOSITION_MM := (ABSREALHSCACCUM / 120.0) ;
+END_IF ;
+__MO_DIV_1 := __EDTB26 ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Rung **********************************)
+(*Manual Mode (5 RUNG)*)
+__STEPPRAGMA
+0,57
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB27 := _IO_EM_DO_05 AND MANUALRIGHT_BT AND NOT(_IO_EM_DI_07) ;
+__EDTB28 := _IO_EM_DO_05 AND MANUALLEFT_BT AND NOT(_IO_EM_DI_06) ;
+MANUALMODE := (__EDTB27 OR __EDTB28) ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,60
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+RESETHSC := MANUALLEFT_BT AND _IO_EM_DI_06 ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,62
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+(* FB call: TON *)
+TON_1(RESETHSC, T#1000MS) ;
+__EDTB29 := TON_1.Q ;
+IF __EDTB29 THEN
+MYCOMMAND := (  1) ;
+END_IF ;
+__MO_1GAIN_3 := __EDTB29 ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,65
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB30 := MANUALMODE AND MANUALRIGHT_BT ;
+IF __EDTB30 THEN
+CMD_SPEEDREF := (  30.0) ;
+END_IF ;
+__MO_1GAIN_4 := __EDTB30 ;
+__EDTB31 := __EDTB30 ;
+IF __EDTB31 THEN
+CMD_SETREV := (  FALSE) ;
+END_IF ;
+__MO_1GAIN_5 := __EDTB31 ;
+__EDTB32 := __EDTB31 ;
+IF __EDTB32 THEN
+CMD_SETFWD := (  TRUE) ;
+END_IF ;
+__MO_1GAIN_6 := __EDTB32 ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,68
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB33 := MANUALMODE AND MANUALLEFT_BT ;
+IF __EDTB33 THEN
+CMD_SPEEDREF := (  30.0) ;
+END_IF ;
+__MO_1GAIN_7 := __EDTB33 ;
+__EDTB34 := __EDTB33 ;
+IF __EDTB34 THEN
+CMD_SETFWD := (  FALSE) ;
+END_IF ;
+__MO_1GAIN_8 := __EDTB34 ;
+__EDTB35 := __EDTB34 ;
+IF __EDTB35 THEN
+CMD_SETREV := (  TRUE) ;
+END_IF ;
+__MO_1GAIN_9 := __EDTB35 ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Rung **********************************)
+(*Move To Position*)
+__STEPPRAGMA
+0,71
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+; (*Pulse detection on : MOVETOPOSITION_BT with __MEMO__8__MOVETOPOSITION_BT *)
+__EDTB36 := (MOVETOPOSITION_BT AND NOT(__MEMO__8__MOVETOPOSITION_BT)) ;
+__EDTB37 := MOVETOPOSITION_MODE ;
+; (*Pulse detection on : MOVETOPOSITION_IOT_BT with __MEMO__9__MOVETOPOSITION_IOT_BT *)
+__EDTB38 := (MOVETOPOSITION_IOT_BT AND NOT(__MEMO__9__MOVETOPOSITION_IOT_BT)) ;
+__EDTB39 := (__EDTB37 OR __EDTB38) ;
+__EDTB41 := (__EDTB36 OR __EDTB39) ;
+IF __EDTB41 THEN
+(* Operator output on : <> with __EDTB40 *)
+__EDTB40 := (HMI_DESIRED_POSITION <> 0.0) ;
+ELSE
+__EDTB40 := FALSE ;
+END_IF ;
+__MO_DIFF_1 := __EDTB40 ;
+__EDTB42 := __EDTB40 AND NOT(MOVETOPOSITION_STOP) AND NOT(MOVETOPOSITION_IOT_STOP) AND NOT(EMERGENCY_BT) AND NOT(AUTOTUNE_STOP) ;
+MOVETOPOSITION_MODE := __EDTB42 ;
+STATUS := __EDTB42 ;
+
+(*************** Code for the end of Rung **************)
+__MEMO__8__MOVETOPOSITION_BT := MOVETOPOSITION_BT ; (*Pulse detection on : MOVETOPOSITION_BT with __MEMO__8__MOVETOPOSITION_BT *)
+__MEMO__9__MOVETOPOSITION_IOT_BT := MOVETOPOSITION_IOT_BT ; (*Pulse detection on : MOVETOPOSITION_IOT_BT with __MEMO__9__MOVETOPOSITION_IOT_BT *)
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,75
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+; (*Pulse detection on : MOVETOPOSITION_MODE with __MEMO__A__MOVETOPOSITION_MODE *)
+__EDTB43 := (MOVETOPOSITION_MODE AND NOT(__MEMO__A__MOVETOPOSITION_MODE)) ;
+__EDTB44 := __EDTB43 AND MOVETOPOSITION_BT ;
+__EDTB45 := __EDTB43 AND MOVETOPOSITION_IOT_BT ;
+__EDTB46 := (__EDTB44 OR __EDTB45) ;
+IF __EDTB46 THEN
+DESIRED_POSITION := (  HMI_DESIRED_POSITION) ;
+END_IF ;
+__MO_1GAIN_10 := __EDTB46 ;
+__EDTB47 := __EDTB46 ;
+IF __EDTB47 THEN
+DESIRED_POSITION_PULSE := (DESIRED_POSITION * 120.0) ;
+END_IF ;
+__MO_MULT_1 := __EDTB47 ;
+__EDTB49 := __EDTB47 ;
+IF __EDTB49 THEN
+(* Operator output on : < with __EDTB48 *)
+__EDTB48 := (DESIRED_POSITION_PULSE < ABSREALHSCACCUM) ;
+ELSE
+__EDTB48 := FALSE ;
+END_IF ;
+__MO_LESS_1 := __EDTB48 ;
+__EDTB50 := __EDTB48 ;
+IF __EDTB50 THEN
+DISTANCE_PULSE := (ABSREALHSCACCUM - DESIRED_POSITION_PULSE) ;
+END_IF ;
+__MO_MINUS_1 := __EDTB50 ;
+__EDTB51 := __EDTB50 ;
+__EDTB52 := __EDTB48 ;
+IF __EDTB52 THEN
+MINMAX := (  1) ;
+END_IF ;
+__MO_1GAIN_11 := __EDTB52 ;
+__EDTB53 := __EDTB52 ;
+__EDTB54 := (__EDTB51 OR __EDTB53) ;
+__EDTB56 := __EDTB47 ;
+IF __EDTB56 THEN
+(* Operator output on : > with __EDTB55 *)
+__EDTB55 := (DESIRED_POSITION_PULSE > ABSREALHSCACCUM) ;
+ELSE
+__EDTB55 := FALSE ;
+END_IF ;
+__MO_GREAT_1 := __EDTB55 ;
+__EDTB57 := __EDTB55 ;
+IF __EDTB57 THEN
+DISTANCE_PULSE := (DESIRED_POSITION_PULSE - ABSREALHSCACCUM) ;
+END_IF ;
+__MO_MINUS_2 := __EDTB57 ;
+__EDTB58 := __EDTB57 ;
+__EDTB59 := __EDTB55 ;
+IF __EDTB59 THEN
+MINMAX := (  2) ;
+END_IF ;
+__MO_1GAIN_12 := __EDTB59 ;
+__EDTB60 := __EDTB59 ;
+__EDTB61 := (__EDTB58 OR __EDTB60) ;
+__EDTB62 := (__EDTB54 OR __EDTB61) ;
+__EDTB63 := __EDTB62 ;
+IF __EDTB63 THEN
+CURRENT_ENCODER_PULSE := (  ABSREALHSCACCUM) ;
+END_IF ;
+__MO_1GAIN_13 := __EDTB63 ;
+__EDTB64 := __EDTB63 ;
+__EDTB65 := __EDTB62 ;
+IF __EDTB65 THEN
+MAXPOSITION := (  0.0) ;
+END_IF ;
+__MO_1GAIN_14 := __EDTB65 ;
+__EDTB66 := __EDTB65 ;
+__EDTB67 := __EDTB62 ;
+IF __EDTB67 THEN
+MINPOSITION := (  500.0) ;
+END_IF ;
+__MO_1GAIN_15 := __EDTB67 ;
+__EDTB68 := __EDTB67 ;
+__EDTB69 := (__EDTB66 OR __EDTB68) ;
+
+(*************** Code for the end of Rung **************)
+__MEMO__A__MOVETOPOSITION_MODE := MOVETOPOSITION_MODE ; (*Pulse detection on : MOVETOPOSITION_MODE with __MEMO__A__MOVETOPOSITION_MODE *)
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,86
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB70 := MOVETOPOSITION_MODE ;
+IF __EDTB70 THEN
+CURRENT_DISTANCE_PULSE := (ABSREALHSCACCUM - CURRENT_ENCODER_PULSE) ;
+END_IF ;
+__MO_MINUS_3 := __EDTB70 ;
+__EDTB71 := __EDTB70 ;
+IF __EDTB71 THEN
+ABS_CURRENT_DISTANCE_PULSE := ABS(CURRENT_DISTANCE_PULSE) ;
+END_IF ;
+__MO_ABS_2 := __EDTB71 ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,90
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB73 := MOVETOPOSITION_MODE ;
+IF __EDTB73 THEN
+(* Operator output on : = with __EDTB72 *)
+__EDTB72 := (MINMAX = 2) ;
+ELSE
+__EDTB72 := FALSE ;
+END_IF ;
+__MO_EQUAL_1 := __EDTB72 ;
+__EDTB75 := __EDTB72 ;
+IF __EDTB75 THEN
+(* Operator output on : > with __EDTB74 *)
+__EDTB74 := (RAWPOSITION_MM > MAXPOSITION) ;
+ELSE
+__EDTB74 := FALSE ;
+END_IF ;
+__MO_GREAT_2 := __EDTB74 ;
+__EDTB76 := __EDTB74 ;
+IF __EDTB76 THEN
+MAXPOSITION := (  RAWPOSITION_MM) ;
+END_IF ;
+__MO_1GAIN_16 := __EDTB76 ;
+__EDTB77 := __EDTB76 ;
+__EDTB79 := MOVETOPOSITION_MODE ;
+IF __EDTB79 THEN
+(* Operator output on : = with __EDTB78 *)
+__EDTB78 := (MINMAX = 1) ;
+ELSE
+__EDTB78 := FALSE ;
+END_IF ;
+__MO_EQUAL_2 := __EDTB78 ;
+__EDTB81 := __EDTB78 ;
+IF __EDTB81 THEN
+(* Operator output on : < with __EDTB80 *)
+__EDTB80 := (RAWPOSITION_MM < MINPOSITION) ;
+ELSE
+__EDTB80 := FALSE ;
+END_IF ;
+__MO_LESS_2 := __EDTB80 ;
+__EDTB82 := __EDTB80 ;
+IF __EDTB82 THEN
+MINPOSITION := (  RAWPOSITION_MM) ;
+END_IF ;
+__MO_1GAIN_17 := __EDTB82 ;
+__EDTB83 := __EDTB82 ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,97
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+(* FB call: PID *)
+PID_1(MOVETOPOSITION_MODE, ABS_CURRENT_DISTANCE_PULSE, DISTANCE_PULSE, PID_MODE, CV_MANUAL, 50.0, -50.0, PIDCONFIG, FALSE, FALSE) ;
+PID_SPEED := PID_1.CV ;
+__EDTB84 := PID_1.Active ;
+__EDTB85 := MOVETOPOSITION_MODE ;
+IF __EDTB85 THEN
+CMD_SPEEDREF := ABS(PID_SPEED) ;
+END_IF ;
+__MO_ABS_3 := __EDTB85 ;
+__EDTB86 := __EDTB85 ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,110
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB87 := MOVETOPOSITION_MODE ;
+IF __EDTB87 THEN
+DISTANCE_MM := (DISTANCE_PULSE / 120.0) ;
+END_IF ;
+__MO_DIV_2 := __EDTB87 ;
+__EDTB88 := __EDTB87 ;
+IF __EDTB88 THEN
+CURRENT_DISTANCE_MM := (ABS_CURRENT_DISTANCE_PULSE / 120.0) ;
+END_IF ;
+__MO_DIV_3 := __EDTB88 ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,114
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB90 := MOVETOPOSITION_MODE ;
+IF __EDTB90 THEN
+(* Operator output on : < with __EDTB89 *)
+__EDTB89 := (RAWPOSITION_MM < DESIRED_POSITION) ;
+ELSE
+__EDTB89 := FALSE ;
+END_IF ;
+__MO_LESS_3 := __EDTB89 ;
+__EDTB91 := __EDTB89 ;
+IF __EDTB91 THEN
+CMD_SETFWD := (  TRUE) ;
+END_IF ;
+__MO_1GAIN_18 := __EDTB91 ;
+__EDTB92 := __EDTB91 ;
+IF __EDTB92 THEN
+CMD_SETREV := (  FALSE) ;
+END_IF ;
+__MO_1GAIN_19 := __EDTB92 ;
+__EDTB93 := __EDTB92 ;
+__EDTB95 := MOVETOPOSITION_MODE ;
+IF __EDTB95 THEN
+(* Operator output on : > with __EDTB94 *)
+__EDTB94 := (RAWPOSITION_MM > DESIRED_POSITION) ;
+ELSE
+__EDTB94 := FALSE ;
+END_IF ;
+__MO_GREAT_3 := __EDTB94 ;
+__EDTB96 := __EDTB94 ;
+IF __EDTB96 THEN
+CMD_SETREV := (  TRUE) ;
+END_IF ;
+__MO_1GAIN_20 := __EDTB96 ;
+__EDTB97 := __EDTB96 ;
+IF __EDTB97 THEN
+CMD_SETFWD := (  FALSE) ;
+END_IF ;
+__MO_1GAIN_21 := __EDTB97 ;
+__EDTB98 := __EDTB97 ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,121
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+; (*Pulse detection on : PIDORAUTOTUNE with __MEMO__B__PIDORAUTOTUNE *)
+__EDTB99 := (PIDORAUTOTUNE AND NOT(__MEMO__B__PIDORAUTOTUNE)) ;
+IF __EDTB99 THEN
+AUTOTUNE_MODE := (  FALSE) ;
+END_IF ;
+__MO_1GAIN_22 := __EDTB99 ;
+
+(*************** Code for the end of Rung **************)
+__MEMO__B__PIDORAUTOTUNE := PIDORAUTOTUNE ; (*Pulse detection on : PIDORAUTOTUNE with __MEMO__B__PIDORAUTOTUNE *)
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,124
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB101 := MOVETOPOSITION_MODE ;
+IF __EDTB101 THEN
+(* Operator output on : = with __EDTB100 *)
+__EDTB100 := (TRUE = PIDORAUTOTUNE) ;
+ELSE
+__EDTB100 := FALSE ;
+END_IF ;
+__MO_EQUAL_3 := __EDTB100 ;
+(* FB call: RA_PID_AUTOTUNE *)
+RA_PID_AUTOTUNE_1(__EDTB100, ABS_CURRENT_DISTANCE_PULSE, DISTANCE_PULSE, TON_2.Q, ABORT) ;
+AUTOTUNEIP := RA_PID_AUTOTUNE_1.IP ;
+AUTOTUNE_MODE := RA_PID_AUTOTUNE_1.DN ;
+CV_AUTOTUNE := RA_PID_AUTOTUNE_1.CV ;
+(* FB call: TON *)
+TON_2(RA_PID_AUTOTUNE_1.FBENO, T#200MS) ;
+__EDTB102 := TON_2.Q ;
+; (*Pulse detection on : MOVETOPOSITION_MODE with __MEMO__C__MOVETOPOSITION_MODE *)
+__EDTB103 := __EDTB100 AND (MOVETOPOSITION_MODE AND NOT(__MEMO__C__MOVETOPOSITION_MODE)) ;
+IF __EDTB103 THEN
+PID_MODE := (  FALSE) ;
+END_IF ;
+__MO_1GAIN_23 := __EDTB103 ;
+__EDTB104 := __EDTB103 ;
+__EDTB105 := (__EDTB102 OR __EDTB104) ;
+__EDTB106 := __EDTB100 AND AUTOTUNEIP ;
+IF __EDTB106 THEN
+(* FB call: SCALER *)
+SCALER_1(CV_AUTOTUNE, 0.0, 100.0, -50.0, 50.0) ;
+CV_AUTOTUNE_SCALE := SCALER_1.Output ;
+END_IF ;
+__MO_SCALER_1 := __EDTB106 ;
+__EDTB107 := __EDTB106 ;
+IF __EDTB107 THEN
+CV_MANUAL := (  CV_AUTOTUNE_SCALE) ;
+END_IF ;
+__MO_1GAIN_24 := __EDTB107 ;
+__EDTB108 := __EDTB107 ;
+; (*Pulse detection on : AUTOTUNE_MODE with __MEMO__D__AUTOTUNE_MODE *)
+__EDTB109 := __EDTB100 AND (AUTOTUNE_MODE AND NOT(__MEMO__D__AUTOTUNE_MODE)) ;
+__EDTB110 := __EDTB109 ;
+IF __EDTB110 THEN
+PIDORAUTOTUNE := (  FALSE) ;
+END_IF ;
+__MO_1GAIN_25 := __EDTB110 ;
+__EDTB111 := __EDTB110 ;
+__EDTB112 := __EDTB109 ;
+IF __EDTB112 THEN
+PIDCONFIG.KC := (  RA_PID_AUTOTUNE_1.RESULT.KC) ;
+END_IF ;
+__MO_1GAIN_26 := __EDTB112 ;
+__EDTB113 := __EDTB112 ;
+__EDTB114 := __EDTB109 ;
+IF __EDTB114 THEN
+PIDCONFIG.TI := (  RA_PID_AUTOTUNE_1.RESULT.TI) ;
+END_IF ;
+__MO_1GAIN_27 := __EDTB114 ;
+__EDTB115 := __EDTB114 ;
+__EDTB116 := __EDTB109 ;
+IF __EDTB116 THEN
+PIDCONFIG.TD := (  RA_PID_AUTOTUNE_1.RESULT.TD) ;
+END_IF ;
+__MO_1GAIN_28 := __EDTB116 ;
+__EDTB117 := __EDTB116 ;
+__EDTB118 := (__EDTB115 OR __EDTB117) ;
+__EDTB119 := (__EDTB113 OR __EDTB118) ;
+__EDTB120 := (__EDTB111 OR __EDTB119) ;
+IF __EDTB120 THEN
+PID_MODE := (  TRUE) ;
+END_IF ;
+__MO_1GAIN_29 := __EDTB120 ;
+AUTOTUNE_STOP := __EDTB120 ;
+
+(*************** Code for the end of Rung **************)
+__MEMO__C__MOVETOPOSITION_MODE := MOVETOPOSITION_MODE ; (*Pulse detection on : MOVETOPOSITION_MODE with __MEMO__C__MOVETOPOSITION_MODE *)
+__MEMO__D__AUTOTUNE_MODE := AUTOTUNE_MODE ; (*Pulse detection on : AUTOTUNE_MODE with __MEMO__D__AUTOTUNE_MODE *)
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,148
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB121 := MOVEPARA ;
+IF __EDTB121 THEN
+PIDCONFIG.KC := (  PIDCONFIG_IOT_DOWN.KC) ;
+END_IF ;
+__MO_1GAIN_30 := __EDTB121 ;
+__EDTB122 := __EDTB121 ;
+IF __EDTB122 THEN
+PIDCONFIG.TI := (  PIDCONFIG_IOT_DOWN.TI) ;
+END_IF ;
+__MO_1GAIN_31 := __EDTB122 ;
+__EDTB123 := __EDTB122 ;
+IF __EDTB123 THEN
+PIDCONFIG.TD := (  PIDCONFIG_IOT_DOWN.TD) ;
+END_IF ;
+__MO_1GAIN_32 := __EDTB123 ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,151
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB124 := _IO_EM_DO_00 ;
+IF __EDTB124 THEN
+(* FB call: PID_Converter_UP *)
+PID_Converter_UP_1(PIDCONFIG.KC, PIDCONFIG.TI, PIDCONFIG.TD) ;
+KP_IOT_UP_1 := PID_Converter_UP_1.Kp ;
+KI_IOT_UP_1 := PID_Converter_UP_1.Ki ;
+KD_IOT_UP_1 := PID_Converter_UP_1.Kd ;
+END_IF ;
+__MO_PID_CONVERTER_UP_1 := __EDTB124 ;
+__EDTB125 := __EDTB124 ;
+__EDTB126 := _IO_EM_DO_00 ;
+IF __EDTB126 THEN
+(* FB call: PID_Converter_DOWN *)
+PID_Converter_DOWN_1(KP_IOT_DOWN_1, KD_IOT_DOWN_1, KI_IOT_DOWN_1) ;
+PIDCONFIG_IOT_DOWN.TI := PID_Converter_DOWN_1.Ti ;
+PIDCONFIG_IOT_DOWN.TD := PID_Converter_DOWN_1.Td ;
+PIDCONFIG_IOT_DOWN.KC := PID_Converter_DOWN_1.Kc ;
+END_IF ;
+__MO_PID_CONVERTER_DOWN_1 := __EDTB126 ;
+__EDTB127 := __EDTB126 ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Code for the end of File **************)
+__GL __LG0000 ;
+
+
+
+(*************** Local Symbols table *******************)
+(* __EDTB1 *)
+(* __EDTB2 *)
+(* __EDTB3 *)
+(* __EDTB4 *)
+(* __MEMO__1__MOVETOPOSITION_MODE *)
+(* __EDTB5 *)
+(* __MEMO__2__MANUALMODE *)
+(* __EDTB6 *)
+(* __EDTB7 *)
+(* __EDTB8 *)
+(* __MEMO__3__MANUALMODE *)
+(* __EDTB9 *)
+(* __EDTB10 *)
+(* __MEMO__4__MOVETOPOSITION_MODE *)
+(* __EDTB11 *)
+(* __EDTB12 *)
+(* __MEMO__5__AUTOTUNE_STOP *)
+(* __EDTB13 *)
+(* __EDTB14 *)
+(* __EDTB15 *)
+(* __EDTB16 *)
+(* __MEMO__6__MOVETOPOSITION_MODE *)
+(* __EDTB17 *)
+(* __EDTB18 *)
+(* __EDTB19 *)
+(* __EDTB20 *)
+(* __EDTB21 *)
+(* __EDTB22 *)
+(* __EDTB23 *)
+(* __MEMO__7__RESETHSC *)
+(* __EDTB24 *)
+(* __EDTB25 *)
+(* __EDTB26 *)
+(* __EDTB27 *)
+(* __EDTB28 *)
+(* __EDTB29 *)
+(* __EDTB30 *)
+(* __EDTB31 *)
+(* __EDTB32 *)
+(* __EDTB33 *)
+(* __EDTB34 *)
+(* __EDTB35 *)
+(* __MEMO__8__MOVETOPOSITION_BT *)
+(* __EDTB36 *)
+(* __EDTB37 *)
+(* __MEMO__9__MOVETOPOSITION_IOT_BT *)
+(* __EDTB38 *)
+(* __EDTB39 *)
+(* __EDTB40 *)
+(* __EDTB41 *)
+(* __EDTB42 *)
+(* __MEMO__A__MOVETOPOSITION_MODE *)
+(* __EDTB43 *)
+(* __EDTB44 *)
+(* __EDTB45 *)
+(* __EDTB46 *)
+(* __EDTB47 *)
+(* __EDTB48 *)
+(* __EDTB49 *)
+(* __EDTB50 *)
+(* __EDTB51 *)
+(* __EDTB52 *)
+(* __EDTB53 *)
+(* __EDTB54 *)
+(* __EDTB55 *)
+(* __EDTB56 *)
+(* __EDTB57 *)
+(* __EDTB58 *)
+(* __EDTB59 *)
+(* __EDTB60 *)
+(* __EDTB61 *)
+(* __EDTB62 *)
+(* __EDTB63 *)
+(* __EDTB64 *)
+(* __EDTB65 *)
+(* __EDTB66 *)
+(* __EDTB67 *)
+(* __EDTB68 *)
+(* __EDTB69 *)
+(* __EDTB70 *)
+(* __EDTB71 *)
+(* __EDTB72 *)
+(* __EDTB73 *)
+(* __EDTB74 *)
+(* __EDTB75 *)
+(* __EDTB76 *)
+(* __EDTB77 *)
+(* __EDTB78 *)
+(* __EDTB79 *)
+(* __EDTB80 *)
+(* __EDTB81 *)
+(* __EDTB82 *)
+(* __EDTB83 *)
+(* __EDTB84 *)
+(* __EDTB85 *)
+(* __EDTB86 *)
+(* __EDTB87 *)
+(* __EDTB88 *)
+(* __EDTB89 *)
+(* __EDTB90 *)
+(* __EDTB91 *)
+(* __EDTB92 *)
+(* __EDTB93 *)
+(* __EDTB94 *)
+(* __EDTB95 *)
+(* __EDTB96 *)
+(* __EDTB97 *)
+(* __EDTB98 *)
+(* __MEMO__B__PIDORAUTOTUNE *)
+(* __EDTB99 *)
+(* __EDTB100 *)
+(* __EDTB101 *)
+(* __EDTB102 *)
+(* __MEMO__C__MOVETOPOSITION_MODE *)
+(* __EDTB103 *)
+(* __EDTB104 *)
+(* __EDTB105 *)
+(* __EDTB106 *)
+(* __EDTB107 *)
+(* __EDTB108 *)
+(* __MEMO__D__AUTOTUNE_MODE *)
+(* __EDTB109 *)
+(* __EDTB110 *)
+(* __EDTB111 *)
+(* __EDTB112 *)
+(* __EDTB113 *)
+(* __EDTB114 *)
+(* __EDTB115 *)
+(* __EDTB116 *)
+(* __EDTB117 *)
+(* __EDTB118 *)
+(* __EDTB119 *)
+(* __EDTB120 *)
+(* __EDTB121 *)
+(* __EDTB122 *)
+(* __EDTB123 *)
+(* __EDTB124 *)
+(* __EDTB125 *)
+(* __EDTB126 *)
+(* __EDTB127 *)
+
