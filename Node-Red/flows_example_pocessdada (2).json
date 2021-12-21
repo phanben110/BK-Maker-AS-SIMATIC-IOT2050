@@ -1,0 +1,506 @@
+[
+    {
+        "id": "b8e5cfb952eba50b",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "e1d0a7d780bdf879",
+        "type": "OpcUa-Endpoint",
+        "endpoint": "opc.tcp://127.0.0.1:49320",
+        "secpol": "Basic128Rsa15",
+        "secmode": "SignAndEncrypt",
+        "login": false
+    },
+    {
+        "id": "eb7f9539e67613ed",
+        "type": "OpcUa-Client",
+        "z": "b8e5cfb952eba50b",
+        "endpoint": "e1d0a7d780bdf879",
+        "action": "read",
+        "deadbandtype": "a",
+        "deadbandvalue": 1,
+        "time": 10,
+        "timeUnit": "s",
+        "certificate": "n",
+        "localfile": "",
+        "localkeyfile": "",
+        "securitymode": "None",
+        "securitypolicy": "None",
+        "name": "",
+        "x": 428,
+        "y": 531,
+        "wires": [
+            [
+                "1a2755be90bfa728",
+                "9e476d2106bab870"
+            ]
+        ]
+    },
+    {
+        "id": "c8e7577dcf230b2c",
+        "type": "OpcUa-Item",
+        "z": "b8e5cfb952eba50b",
+        "item": "ns=2;s=Channel1.Device1.Group1.CV",
+        "datatype": "Float",
+        "value": "",
+        "name": "CV",
+        "x": 240,
+        "y": 526,
+        "wires": [
+            [
+                "eb7f9539e67613ed"
+            ]
+        ]
+    },
+    {
+        "id": "7d7d53726c740817",
+        "type": "inject",
+        "z": "b8e5cfb952eba50b",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 546,
+        "wires": [
+            [
+                "c8e7577dcf230b2c",
+                "3fabcbdbfe03b955"
+            ]
+        ]
+    },
+    {
+        "id": "3a6e50a52e227c4d",
+        "type": "debug",
+        "z": "b8e5cfb952eba50b",
+        "name": "CV",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 760,
+        "y": 526,
+        "wires": []
+    },
+    {
+        "id": "3fabcbdbfe03b955",
+        "type": "OpcUa-Item",
+        "z": "b8e5cfb952eba50b",
+        "item": "ns=2;s=Channel1.Device1.Group1.SP",
+        "datatype": "Float",
+        "value": "",
+        "name": "SP",
+        "x": 240,
+        "y": 566,
+        "wires": [
+            [
+                "eb7f9539e67613ed"
+            ]
+        ]
+    },
+    {
+        "id": "1a2755be90bfa728",
+        "type": "function",
+        "z": "b8e5cfb952eba50b",
+        "name": "",
+        "func": "if(msg.topic == \"ns=2;s=Channel1.Device1.Group1.CV\")\n{\nreturn msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 526,
+        "wires": [
+            [
+                "3a6e50a52e227c4d"
+            ]
+        ]
+    },
+    {
+        "id": "9e476d2106bab870",
+        "type": "function",
+        "z": "b8e5cfb952eba50b",
+        "name": "",
+        "func": "if(msg.topic == \"ns=2;s=Channel1.Device1.Group1.SP\")\n{\nreturn msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 566,
+        "wires": [
+            [
+                "708b771168e5d902"
+            ]
+        ]
+    },
+    {
+        "id": "708b771168e5d902",
+        "type": "debug",
+        "z": "b8e5cfb952eba50b",
+        "name": "SP",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 760,
+        "y": 566,
+        "wires": []
+    },
+    {
+        "id": "a15bd00c0b30b9f9",
+        "type": "inject",
+        "z": "b8e5cfb952eba50b",
+        "name": "Initial Object",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 400,
+        "wires": [
+            [
+                "9968489b0e3fbb73"
+            ]
+        ]
+    },
+    {
+        "id": "9968489b0e3fbb73",
+        "type": "function",
+        "z": "b8e5cfb952eba50b",
+        "name": "",
+        "func": "var CVobject = [];\nglobal.set(\"Temp\",CVobject);\nglobal.set(\"count\",0);\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "68cf01920c572e4f",
+        "type": "function",
+        "z": "b8e5cfb952eba50b",
+        "name": "",
+        "func": "var count = global.get(\"count\") || 0\ncount+=1\nglobal.set(\"count\",count);\nvar cvob = global.get(\"Temp\")\ncvob.push(count)\nglobal.set(\"Temp\",cvob);\nmsg.payload = count\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 460,
+        "wires": [
+            [
+                "9dc2bb7e4992966b"
+            ]
+        ]
+    },
+    {
+        "id": "6ca0420dfc71d6f6",
+        "type": "inject",
+        "z": "b8e5cfb952eba50b",
+        "name": "Write Object",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 460,
+        "wires": [
+            [
+                "68cf01920c572e4f"
+            ]
+        ]
+    },
+    {
+        "id": "9dc2bb7e4992966b",
+        "type": "debug",
+        "z": "b8e5cfb952eba50b",
+        "name": "CV",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 390,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "d4ee660abb5ea8b5",
+        "type": "inject",
+        "z": "b8e5cfb952eba50b",
+        "name": "Read Object",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 340,
+        "wires": [
+            [
+                "40593bf79068b724"
+            ]
+        ]
+    },
+    {
+        "id": "40593bf79068b724",
+        "type": "function",
+        "z": "b8e5cfb952eba50b",
+        "name": "",
+        "func": "\nmsg.payload = console.log(Math.max(...global.get(\"Temp\")));\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 340,
+        "wires": [
+            [
+                "1d21de27ecd691de"
+            ]
+        ]
+    },
+    {
+        "id": "1d21de27ecd691de",
+        "type": "debug",
+        "z": "b8e5cfb952eba50b",
+        "name": "CV",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 410,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "e6e9dfb3a56f2c92",
+        "type": "inject",
+        "z": "b8e5cfb952eba50b",
+        "name": "test find max element",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 180,
+        "wires": [
+            [
+                "04daf31eec3d4892"
+            ]
+        ]
+    },
+    {
+        "id": "04daf31eec3d4892",
+        "type": "function",
+        "z": "b8e5cfb952eba50b",
+        "name": "",
+        "func": "array1 = [0, 0.00239583333333334,0.00677389973958334,0.0155689615499916,0.0290469895948373,0.0472639414992979,0.0701035314471592,0.0973138833341263,0.128539718441116,0.163350392542609,0.201264091454538,0.241768491982681,0.284338190400438,0.328449193316094,0.373590756421204,0.419274845473326,0.465043481275419,0.510474216672515,0.555183978976805,0.598831496016918,0.641118508425897,0.681789955051666,0.720633302686915,0.757477175842118,0.792189427172771,0.824674774544856,0.854872116684727,0.882751625995117,0.908311704493069,0.931575876986890,0.952589684590228,0.971417631491128,0.988140228558493,1.00285116887314,1.01565466260136,1.02666295176316,1.03599401935592,1.04376950194295,1.05011281016492,1.05514745764015,1.05899559534022,1.06177674571599,1.06360672855791,1.06459676875744,1.06485277474612,1.06447477538180,1.06355650238197,1.06218510503289,1.06044098378762,1.05839772947203,1.05612215510769,1.05367440780441,1.05110814874208,1.04847078992507,1.04580377712905,1.04314290924662,1.04051868505752,1.03795666928273,1.03547787061615,1.03309912525039,1.03083348021352,1.02869057160348,1.02667699353977,1.02479665434138,1.02305111708374,1.02143992228164,1.01996089098833,1.01861040709379,1.01738367804601,1.01627497361062,1.01527784262648,1.01438530801135,1.01359004052297,1.01288451199183,1.01226112891295,1.01171234742044,1.01123077077169,1.01080923054221,1.01044085277967,1.01011911039001,1.00983786303216,1.00959138578436,1.00937438781608,1.00900988841338,1.00871091215352,1.00845087929679,1.00820957095309,1.00797242492200,1.00772972750434,1.00747577106150,1.00720803015635,1.00692639399915,1.00648174897293,1.00601947875081,1.00555163239040,1.00509011152925,1.00464515532315,1.00422458325359,1.00383359588607,1.00347494784692,1.00314933611034,1.00285588163906,1.00259261749494,1.00235692793628,1.00214590874978,1.00195663847540,1.00178636353455,1.00163260837924,1.00149322571310,1.00136640271569,1.00125063806088,1.00114470222590,1.00104759080788,1.00095847777520,1.00087667308114,1.00080158701569,1.00073270212192,1.00066955243376,1.00061170914068,1.00055877146588,1.00051036146922,1.00046612157356,1.00042571379327,1.00038881986370,1.00035514169240,1.00032440175257,1.00029634320376,1.00027072965010,1.00024734453310,1.00022599021022,1.00020648679764,1.00018867086336,1.00017239405169,1.00015752170732,1.00014393155080,1.00013151244106,1.00012016324541,1.00010979182542,1.00010031413785,1.00009165344363,1.00008373961401,1.00007650852166,1.00006990150408,1.00006386488784,1.00005834956343,1.00005331060222,1.00004870690873,1.00004450090294,1.00004065822862,1.00003714748470,1.00003393997745,1.00003100949174]\n//array1 = global.get(\"Temp\")\nvar i,max = 0,first_T = 0 \nfor(i=0; i<array1.length;i++)\n{\n    if (max < array1[i])\n    {\n        max = array1[i]\n    }\n}\nfor(i = array1.length; i>=0 ;i--)\n{\n    if ((Math.abs(array1[i]-1)) > (0.02*1.0) && (first_T == 0) )\n    {\n        msg.index = array1.indexOf(array1[i])\n        first_T+=1\n    }\n}\nmsg.overshoot = (max-1.0)*100\nmsg.SSE = ((array1[(array1.length) - 1])-1)*100\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 180,
+        "wires": [
+            [
+                "79aeda1f3a82b4fb",
+                "2f1f546c8bcd6b50",
+                "fd3bef7bcb4be5d7"
+            ]
+        ]
+    },
+    {
+        "id": "0530b5a61cebc2b9",
+        "type": "debug",
+        "z": "b8e5cfb952eba50b",
+        "name": "OVERSHOOT",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 660,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "79aeda1f3a82b4fb",
+        "type": "function",
+        "z": "b8e5cfb952eba50b",
+        "name": "",
+        "func": "msg.payload = msg.overshoot\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 180,
+        "wires": [
+            [
+                "0530b5a61cebc2b9"
+            ]
+        ]
+    },
+    {
+        "id": "2f1f546c8bcd6b50",
+        "type": "function",
+        "z": "b8e5cfb952eba50b",
+        "name": "",
+        "func": "msg.payload = (msg.index + 1)*0.01\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 220,
+        "wires": [
+            [
+                "d86410364fe846d2"
+            ]
+        ]
+    },
+    {
+        "id": "d86410364fe846d2",
+        "type": "debug",
+        "z": "b8e5cfb952eba50b",
+        "name": "Settling time",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 650,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "fd3bef7bcb4be5d7",
+        "type": "function",
+        "z": "b8e5cfb952eba50b",
+        "name": "",
+        "func": "msg.payload = msg.SSE\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 260,
+        "wires": [
+            [
+                "e75554eace29918f"
+            ]
+        ]
+    },
+    {
+        "id": "e75554eace29918f",
+        "type": "debug",
+        "z": "b8e5cfb952eba50b",
+        "name": "Steady State Error",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 670,
+        "y": 260,
+        "wires": []
+    }
+]
