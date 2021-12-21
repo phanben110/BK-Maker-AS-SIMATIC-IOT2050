@@ -1,0 +1,51 @@
+<modbusServer Version="2.0">
+  <modbusRegister name="COILS">
+    <mapping variable="MovePara" parent="Micro850" dataType="Bool" address="000001" va="0x46d">
+      <MBVarInfo ElemType="Bool" SubElemType="Any" DataTypeSize="1" />
+    </mapping>
+    <mapping variable="MoveToPosition_IOT_BT" parent="Micro850" dataType="Bool" address="000002" va="0x46b">
+      <MBVarInfo ElemType="Bool" SubElemType="Any" DataTypeSize="1" />
+    </mapping>
+    <mapping variable="MoveToPosition_IOT_STOP" parent="Micro850" dataType="Bool" address="000003" va="0x46c">
+      <MBVarInfo ElemType="Bool" SubElemType="Any" DataTypeSize="1" />
+    </mapping>
+    <mapping variable="Status" parent="Micro850" dataType="Bool" address="000010" va="0x46e">
+      <MBVarInfo ElemType="Bool" SubElemType="Any" DataTypeSize="1" />
+    </mapping>
+  </modbusRegister>
+  <modbusRegister name="HOLDING_REGISTERS">
+    <mapping variable="ID" parent="Micro850" dataType="Word" address="400001" va="0x496">
+      <MBVarInfo ElemType="Word" SubElemType="Any" DataTypeSize="2" />
+    </mapping>
+    <mapping variable="Kp_IOT_UP_1" parent="Micro850" dataType="Real" address="400002" va="0x50c">
+      <MBVarInfo ElemType="Real" SubElemType="Any" DataTypeSize="4" />
+    </mapping>
+    <mapping variable="Ki_IOT_UP_1" parent="Micro850" dataType="Real" address="400004" va="0x510">
+      <MBVarInfo ElemType="Real" SubElemType="Any" DataTypeSize="4" />
+    </mapping>
+    <mapping variable="Kd_IOT_UP_1" parent="Micro850" dataType="Real" address="400006" va="0x514">
+      <MBVarInfo ElemType="Real" SubElemType="Any" DataTypeSize="4" />
+    </mapping>
+    <mapping variable="Sts_SpeedFeedback" parent="Micro850" dataType="Real" address="400010" va="0x4b0">
+      <MBVarInfo ElemType="Real" SubElemType="Any" DataTypeSize="4" />
+    </mapping>
+    <mapping variable="Raw_Distance" parent="Micro850" dataType="Real" address="400012" va="0x4ec">
+      <MBVarInfo ElemType="Real" SubElemType="Any" DataTypeSize="4" />
+    </mapping>
+    <mapping variable="Desired_Position" parent="Micro850" dataType="Real" address="400014" va="0x4e4">
+      <MBVarInfo ElemType="Real" SubElemType="Any" DataTypeSize="4" />
+    </mapping>
+    <mapping variable="Kp_IOT_DOWN_1" parent="Micro850" dataType="Real" address="400022" va="0x500">
+      <MBVarInfo ElemType="Real" SubElemType="Any" DataTypeSize="4" />
+    </mapping>
+    <mapping variable="Ki_IOT_DOWN_1" parent="Micro850" dataType="Real" address="400024" va="0x504">
+      <MBVarInfo ElemType="Real" SubElemType="Any" DataTypeSize="4" />
+    </mapping>
+    <mapping variable="Kd_IOT_DOWN_1" parent="Micro850" dataType="Real" address="400026" va="0x508">
+      <MBVarInfo ElemType="Real" SubElemType="Any" DataTypeSize="4" />
+    </mapping>
+    <mapping variable="Desired_Position_IOT" parent="Micro850" dataType="Real" address="400034" va="0x518">
+      <MBVarInfo ElemType="Real" SubElemType="Any" DataTypeSize="4" />
+    </mapping>
+  </modbusRegister>
+</modbusServer>

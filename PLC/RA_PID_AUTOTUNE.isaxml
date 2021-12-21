@@ -1,0 +1,298 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Pou FileVersion="200.00.005" Name="RA_PID_AUTOTUNE" ElementGuid="d2ca01dd-ce9f-4da7-b960-4e8cd8be604a" Comment="" SingleTextLine="" Language="ST" Localization="Prj" GenDebugInfo="false" UseResPassword="true" GenerateSymbMon="true" Is1499="false" CustomFbd="0" GroupName="(User defined)">
+  <FunctionBlock IdentifierNb="0" Keyword="" InitInstance="false" SymbMonExtraBytes="128" />
+  <LocalVars>
+    <Variable Name="FBEN" Comment="" Address="" Alias="" StringSize="0" DataType="BOOL" InitialValue="" Modifier="Constant" Kind="VarInput" AccessRights="Read" Direction="Input" CommentFields="" Attributes="0" />
+    <Variable Name="PV" Comment="" Address="" Alias="" StringSize="0" DataType="REAL" InitialValue="" Modifier="Constant" Kind="VarInput" AccessRights="Read" Direction="Input" CommentFields="" Attributes="0" />
+    <Variable Name="SP" Comment="" Address="" Alias="" StringSize="0" DataType="REAL" InitialValue="" Modifier="Constant" Kind="VarInput" AccessRights="Read" Direction="Input" CommentFields="" Attributes="0" />
+    <Variable Name="AutoTune" Comment="" Address="" Alias="" StringSize="0" DataType="BOOL" InitialValue="" Modifier="Constant" Kind="VarInput" AccessRights="Read" Direction="Input" CommentFields="" Attributes="0" />
+    <Variable Name="Abort" Comment="" Address="" Alias="" StringSize="0" DataType="BOOL" InitialValue="" Modifier="Constant" Kind="VarInput" AccessRights="Read" Direction="Input" CommentFields="" Attributes="0" />
+    <Variable Name="FBENO" Comment="" Address="" Alias="" StringSize="0" DataType="BOOL" InitialValue="" Modifier="Constant" Kind="VarOutput" AccessRights="Write" Direction="Output" CommentFields="" Attributes="0" />
+    <Variable Name="IP" Comment="" Address="" Alias="" StringSize="0" DataType="BOOL" InitialValue="" Modifier="Constant" Kind="VarOutput" AccessRights="Write" Direction="Output" CommentFields="" Attributes="0" />
+    <Variable Name="DN" Comment="" Address="" Alias="" StringSize="0" DataType="BOOL" InitialValue="" Modifier="Constant" Kind="VarOutput" AccessRights="Write" Direction="Output" CommentFields="" Attributes="0" />
+    <Variable Name="AT_ID" Comment="" Address="" Alias="" StringSize="0" DataType="INT" InitialValue="" Modifier="Constant" Kind="VarOutput" AccessRights="Write" Direction="Output" CommentFields="" Attributes="0" />
+    <Variable Name="CV" Comment="" Address="" Alias="" StringSize="0" DataType="REAL" InitialValue="" Modifier="Constant" Kind="VarOutput" AccessRights="Write" Direction="Output" CommentFields="" Attributes="0" />
+    <Variable Name="Control" Comment="" Address="" Alias="" StringSize="0" DataType="BOOL" InitialValue="" Modifier="Constant" Kind="VarOutput" AccessRights="Write" Direction="Output" CommentFields="" Attributes="0" />
+    <Variable Name="Result" Comment="" Address="" Alias="" StringSize="0" DataType="PID_GAINS" InitialValue="" Modifier="Constant" Kind="VarOutput" AccessRights="Write" Direction="Output" CommentFields="" Attributes="0" />
+    <Variable Name="Timer" Comment="" Address="" Alias="" StringSize="0" DataType="DINT" InitialValue="" Modifier="Constant" Kind="Var" AccessRights="ReadWrite" Direction="Local" CommentFields="" Attributes="0" />
+    <Variable Name="rtring_autotune" Comment="" Address="" Alias="" StringSize="0" DataType="R_TRIG" InitialValue="" Modifier="Constant" Kind="Var" AccessRights="ReadWrite" Direction="Local" CommentFields="" Attributes="0" />
+    <Variable Name="Step" Comment="" Address="" Alias="" StringSize="0" DataType="INT" InitialValue="" Modifier="Constant" Kind="Var" AccessRights="ReadWrite" Direction="Local" CommentFields="" Attributes="0" />
+    <Variable Name="MaxPeak" Comment="" Address="" Alias="" StringSize="0" DataType="REAL" InitialValue="" Modifier="Constant" Kind="Var" AccessRights="ReadWrite" Direction="Local" CommentFields="" Attributes="0" />
+    <Variable Name="MinPeak" Comment="" Address="" Alias="" StringSize="0" DataType="REAL" InitialValue="" Modifier="Constant" Kind="Var" AccessRights="ReadWrite" Direction="Local" CommentFields="" Attributes="0" />
+    <Variable Name="MaxPeak2" Comment="" Address="" Alias="" StringSize="0" DataType="REAL" InitialValue="" Modifier="Constant" Kind="Var" AccessRights="ReadWrite" Direction="Local" CommentFields="" Attributes="0" />
+    <Variable Name="PV_Start_TU" Comment="" Address="" Alias="" StringSize="0" DataType="REAL" InitialValue="" Modifier="Constant" Kind="Var" AccessRights="ReadWrite" Direction="Local" CommentFields="" Attributes="0" />
+    <Variable Name="PV_Stop_TU" Comment="" Address="" Alias="" StringSize="0" DataType="REAL" InitialValue="" Modifier="Constant" Kind="Var" AccessRights="ReadWrite" Direction="Local" CommentFields="" Attributes="0" />
+    <Variable Name="PV_Amplitude" Comment="" Address="" Alias="" StringSize="0" DataType="REAL" InitialValue="" Modifier="Constant" Kind="Var" AccessRights="ReadWrite" Direction="Local" CommentFields="" Attributes="0" />
+    <Variable Name="Output_Amplitude" Comment="" Address="" Alias="" StringSize="0" DataType="REAL" InitialValue="" Modifier="Constant" Kind="Var" AccessRights="ReadWrite" Direction="Local" CommentFields="" Attributes="0" />
+    <Variable Name="AT_CV" Comment="" Address="" Alias="" StringSize="0" DataType="REAL" InitialValue="" Modifier="Constant" Kind="Var" AccessRights="ReadWrite" Direction="Local" CommentFields="" Attributes="0" />
+    <Variable Name="Tu" Comment="" Address="" Alias="" StringSize="0" DataType="REAL" InitialValue="" Modifier="Constant" Kind="Var" AccessRights="ReadWrite" Direction="Local" CommentFields="" Attributes="0" />
+    <Variable Name="Analog_Turn_ON_Value" Comment="" Address="" Alias="" StringSize="0" DataType="REAL" InitialValue="" Modifier="Constant" Kind="Var" AccessRights="ReadWrite" Direction="Local" CommentFields="" Attributes="0" />
+    <Variable Name="Analog_Turn_off_Value" Comment="" Address="" Alias="" StringSize="0" DataType="REAL" InitialValue="" Modifier="Constant" Kind="Var" AccessRights="ReadWrite" Direction="Local" CommentFields="" Attributes="0" />
+    <Variable Name="Ku_2" Comment="" Address="" Alias="" StringSize="0" DataType="REAL" InitialValue="" Modifier="Constant" Kind="Var" AccessRights="ReadWrite" Direction="Local" CommentFields="" Attributes="0" />
+    <Variable Name="DirectActing" Comment="" Address="" Alias="" StringSize="0" DataType="BOOL" InitialValue="" Modifier="Constant" Kind="Var" AccessRights="ReadWrite" Direction="Local" CommentFields="" Attributes="0" />
+    <Variable Name="Sts_AT" Comment="" Address="" Alias="" StringSize="0" DataType="BOOL" InitialValue="" Modifier="Constant" Kind="Var" AccessRights="ReadWrite" Direction="Local" CommentFields="" Attributes="0" />
+    <Variable Name="nPV" Comment="" Address="" Alias="" StringSize="0" DataType="REAL" InitialValue="" Modifier="Constant" Kind="Var" AccessRights="ReadWrite" Direction="Local" CommentFields="" Attributes="0" />
+    <Variable Name="Origin" Comment="" Address="" Alias="" StringSize="0" DataType="PID_GAINS" InitialValue="" Modifier="Constant" Kind="Var" AccessRights="ReadWrite" Direction="Local" CommentFields="" Attributes="0" />
+    <Variable Name="LOS" Comment="" Address="" Alias="" StringSize="0" DataType="PID_GAINS" InitialValue="" Modifier="Constant" Kind="Var" AccessRights="ReadWrite" Direction="Local" CommentFields="" Attributes="0" />
+    <Variable Name="NOS" Comment="" Address="" Alias="" StringSize="0" DataType="PID_GAINS" InitialValue="" Modifier="Constant" Kind="Var" AccessRights="ReadWrite" Direction="Local" CommentFields="" Attributes="0" />
+    <Variable Name="Tyreus" Comment="" Address="" Alias="" StringSize="0" DataType="PID_GAINS" InitialValue="" Modifier="Constant" Kind="Var" AccessRights="ReadWrite" Direction="Local" CommentFields="" Attributes="0" />
+    <Variable Name="nHysteresis" Comment="" Address="" Alias="" StringSize="0" DataType="REAL" InitialValue="" Modifier="Constant" Kind="Var" AccessRights="ReadWrite" Direction="Local" CommentFields="" Attributes="0" />
+    <Variable Name="nResponse" Comment="" Address="" Alias="" StringSize="0" DataType="INT" InitialValue="" Modifier="Constant" Kind="Var" AccessRights="ReadWrite" Direction="Local" CommentFields="" Attributes="0" />
+    <Variable Name="rtring_abort" Comment="" Address="" Alias="" StringSize="0" DataType="R_TRIG" InitialValue="" Modifier="Constant" Kind="Var" AccessRights="ReadWrite" Direction="Local" CommentFields="" Attributes="0" />
+  </LocalVars>
+  <PouBody><![CDATA[FUNCTION_BLOCK RA_PID_AUTOTUNE
+(*=====================================================================================================================================
+	[UDFB Name]					:RA_PID_AUTOTUNE     
+	[Category]					:Process
+	[Description]				:This is a auto tune UDFB designed to tune any general process. Including process that has a sluggish inactive cycle
+	[Author]					:Rockwell Automation
+	[Created using CCW version]	:10.0
+	[FeedBack]					:RASampleCode@ra.rockwell.com
+	[Revison History]			:2016-Nov - Release
+	[Notes]						:										
+=====================================================================================================================================*)
+Timer:= ANY_TO_DINT(__SYSVA_CYCLEDATE);
+rtring_autotune(AutoTune);
+rtring_abort(Abort);
+IF FBEN THEN
+	FBENO := TRUE;
+	
+	(*----- Auto Tune Procedures -----*)
+	IF rtring_autotune.Q THEN
+		(*initialise variables*)	
+		Step := 0;
+		MaxPeak:= 0.0;
+		MinPeak:= 0.0;
+		MaxPeak2:= 0.0;
+		PV_Start_TU:= 0.0;
+		PV_Stop_TU := 0.0;
+		PV_Amplitude:= 0.0;
+		Output_Amplitude:=0.0; 
+		AT_CV:=0.0; 
+		Tu:= 0.0;
+		Analog_Turn_ON_Value := 100.0;
+		Analog_Turn_off_Value := 0.0;
+		AT_ID := 0;
+		Ku_2 := 0.0;
+		DirectActing := FALSE;
+		Sts_AT := TRUE;		
+		nHysteresis := 0.02;
+		nResponse := 4;
+		IP := TRUE;
+		DN := FALSE;
+	END_IF;
+	
+	IF rtring_abort.Q THEN
+		CV := 0.0;
+		IP := FALSE;
+		DN := FALSE;
+		AT_ID := 999;
+	END_IF;
+	
+	IF IP THEN	
+		CV := AT_CV;
+		
+		CASE Step OF
+
+		0:	
+			(*turn on output 100%*)
+			IF (SP <> 0.0) AND ((SP > PV*1.1) OR (SP<PV*0.9)) THEN
+				MaxPeak:= SP;
+				MinPeak:= SP;
+				MaxPeak2:= SP;
+				AT_CV:= Analog_Turn_ON_Value;
+				nPV := PV;
+				Step:=Step + 1;
+			ELSE
+				Step 	:= 999;
+				AT_ID 	:= -2; (*Auto tune unable to continue because Auto tune SP is 0.0*)
+			END_IF;
+		
+		1:
+			
+			AT_ID	:=	1; (*Determine process direction*)
+			IF PV > (nPV*(1.1)) THEN
+				DirectActing := FALSE; (*Heating*)
+				Step := 100;
+			ELSIF PV < (nPV*(0.9)) THEN
+				DirectActing := TRUE; (*Cooling*)
+				Step := 200;
+			END_IF;
+			
+		(*************************Starting of Auto tune Cooling**********************************)
+		200: 
+			AT_ID	:= 20; (*Direct process- Waiting for temperature < Setpoint*)
+			IF PV < (SP*(1.0 - nHysteresis)) THEN 
+				(*Turn off the output 0%*)
+				AT_CV:= Analog_Turn_off_Value;
+				Step:=Step + 1;
+			END_IF;
+			
+			
+		201:
+			AT_ID	:= 21; (*Direct process- Waiting for temperature > Setpoint*)
+			If PV <= MaxPeak THEN
+				MaxPeak:= PV;
+			END_IF;
+			
+			IF PV > (SP*(1.0 + nHysteresis)) THEN
+				Step:= Step + 1;
+			ELSE
+
+			END_IF;
+				
+		202: 
+				AT_ID	:= 22; (*Direct process- Waiting for process value < Setpoint*)
+				AT_CV:= Analog_Turn_ON_Value;
+				
+				If PV >= MinPeak THEN
+					MinPeak:= PV;
+					PV_Start_TU:= any_to_real(Timer);
+				END_IF;
+			
+				IF PV < (SP *(1.0 - nHysteresis)) THEN
+					Step:=Step + 1;
+				ELSE
+
+				END_IF;
+
+		203:	
+				AT_ID	:= 23; (*Direct process- Waiting for process value > Upper limit*)
+				AT_CV:= Analog_Turn_off_Value;
+						
+				If PV <= MaxPeak2 THEN 
+					MaxPeak2:= PV;	
+				END_IF;
+				
+				IF PV >= MinPeak THEN
+					PV_Stop_TU:= any_to_real(Timer);
+					Step:= 10;
+				END_IF;
+					
+		(**************************End of Auto tune Cooling*******************************)
+			
+
+		(**************************Starting of Auto tune Heating*******************************)	
+		100: 
+			AT_ID	:= 10;(*Reverse process- Waiting for temperature > Setpoint*)
+			IF PV > (SP*(1.0 + nHysteresis)) THEN 
+				(*Turn off the output 0%*)
+				AT_CV:= Analog_Turn_off_Value;
+				Step:=Step + 1;
+			END_IF;
+			
+			
+		101:  
+			AT_ID	:= 11;(*Reverse process- Waiting for temperature < Setpoint*)
+			If PV >= MaxPeak THEN
+				MaxPeak:= PV;
+			END_IF;
+			
+			IF PV < (SP*(1.0 - nHysteresis)) THEN
+				Step:= Step + 1;
+			ELSE
+
+			END_IF;
+				
+		102: 
+				AT_ID	:= 12;(*Reverse process- Waiting for temperature > Setpoint*)
+				AT_CV:= Analog_Turn_ON_Value;
+				
+				If PV <= MinPeak THEN
+					MinPeak:= PV;
+					PV_Start_TU:= any_to_real(Timer);
+				END_IF;
+			
+				IF PV > (SP *(1.0 + nHysteresis)) THEN
+					Step:=Step + 1;
+				ELSE
+
+				END_IF;
+
+		103:	
+				AT_ID	:= 13;(*Reverse process- Waiting for temperature < Lower Limit*)
+				AT_CV:= Analog_Turn_off_Value;
+						
+				If PV >= MaxPeak2 THEN 
+					MaxPeak2:= PV;	
+				END_IF;
+				
+				IF PV <= MinPeak THEN
+					PV_Stop_TU:= any_to_real(Timer);
+					Step:= 10;
+				END_IF;
+
+		(**************************End of Auto tune Heating*******************************)
+
+		10:	
+			
+			TU:= (PV_Stop_TU - PV_Start_TU)*0.001;
+			PV_Amplitude:= ABS(MaxPeak2 - MinPeak); (*Calculate b*)
+			Output_Amplitude:= Any_TO_REAL (Analog_Turn_ON_Value - Analog_Turn_off_Value); (* 15/9 added the amplitude of Output to calculate the Kc value*)
+			
+			Ku_2 := (4.0 * Output_Amplitude/2.0) / (3.141592 * (SQRT(POW(PV_Amplitude / 2.0, 2.0)-POW(SP*nHysteresis,2.0))));
+			
+			(* Original PID *)
+			Origin.Kc := Ku_2 * 0.6;
+			Origin.Ti := TU/2.0;
+			Origin.Td := TU/8.0;
+			
+			(* Less Overshoot *)
+			LOS.Kc := Ku_2 * 0.33;
+			LOS.Ti := TU/2.0;
+			LOS.Td := TU/3.0;
+			
+			(* Little or No Overshoot *)
+			NOS.Kc := Ku_2 * 0.2;
+			NOS.Ti := TU/2.0;
+			NOS.Td := TU/3.0;
+			
+			(* No Overshoot *)
+			Tyreus.Kc := Ku_2 * 0.313;
+			Tyreus.Ti := TU * 2.2;
+			Tyreus.Td := 0.0;
+			
+			Result.FC := 0.7;
+			
+			(* Result- Less Overshoot *)
+			CASE nResponse OF
+			
+			1:
+				Result.Kc := Tyreus.Kc ;
+				Result.Ti := Tyreus.Ti;
+				Result.Td := Tyreus.Td;		
+			
+			2: 
+				Result.Kc := NOS.Kc ;
+				Result.Ti := NOS.Ti ;
+				Result.Td := NOS.Td;		
+			
+			3:
+				Result.Kc := LOS.Kc;
+				Result.Ti := LOS.Ti;
+				Result.Td := LOS.Td;				
+			4:
+				Result.Kc := Origin.Kc;
+				Result.Ti := Origin.Ti;
+				Result.Td := Origin.Td;
+				
+			END_CASE;
+			
+			Control := DirectActing;
+			Step	:= 99;
+			AT_ID	:= 99;(*Auto Tune Completed*)
+			DN 		:= TRUE	;	
+			IP		:= FALSE;
+		END_CASE;
+	END_IF;
+	
+ELSE
+FBENO := FALSE;
+END_IF;
+END_FUNCTION_BLOCK]]></PouBody>
+  <PouUIProperties>
+    <Root Version="6">
+  <LanguageContainerStyle CommentTextColor="Green" CommentFont="Courier New, 10pt" PonctuationTextColor="Black" PonctuationFont="Courier New, 10pt" IdentifierTextColor="Black" IdentifierFont="Courier New, 10pt" OperatorTextColor="Black" OperatorFont="Courier New, 10pt" ReservedWordTextColor="Fuchsia" ReservedWordFont="Courier New, 10pt" PouTextColor="BlueViolet" PouFont="Courier New, 10pt" NumberTextColor="Firebrick" NumberFont="Courier New, 10pt" StringTextColor="Gray" StringFont="Courier New, 10pt" EditorTextAreaBackgroundColor="White" EditorFont="Courier New, 10pt" Index="0" />
+</Root>
+  </PouUIProperties>
+</Pou>

@@ -1,0 +1,291 @@
+PROGRAM Prog1
+#info= QLD
+BOF
+
+
+(**)
+
+SOR  [0,1] (**) (**)  XIO  [1,0] (*Emergency_BT*) (**)  OTE  [2,0] (*_IO_EM_DO_00*) (*Power*)
+EOR [3,0]
+
+
+(**)
+
+SOR  [0,3] (**) (**)  
+ BST  XIC  [1,0] (*_IO_EM_DI_10*) (*RUN*)
+   NXB  XIC  [1,1] (*_IO_EM_DO_05*) (*run lamp*)
+ BND
+  XIO  [2,0] (*_IO_EM_DI_11*) (*STOP*)  XIC  [3,0] (*_IO_EM_DO_00*) (*Power*)  OTE  [4,0] (*_IO_EM_DO_05*) (*run lamp*)
+EOR [5,0]
+
+
+(**)
+
+SOR  [0,6] (**) (**)  
+ BST  XIC  [1,0] (*_IO_EM_DI_11*) (*STOP*)
+   NXB  XIC  [1,1] (*_IO_EM_DO_06*) (*1Stop lamp*)
+ BND
+  XIO  [2,0] (*_IO_EM_DI_10*) (*RUN*)  XIC  [3,0] (*_IO_EM_DO_00*) (*Power*)  OTE  [4,0] (*_IO_EM_DO_06*) (*1Stop lamp*)
+EOR [5,0]
+
+
+(**)
+
+SOR  [0,9] (**) (**)  
+ BST  
+ BST  XIP  [1,0] (*MoveToPosition_Mode*) (**)
+   NXB  XIP  [1,1] (*ManualMode*) (**)
+ BND
+
+   NXB  XIC  [1,2] (*Cmd_Start*) (**)
+ BND
+  XIO  [2,0] (*Cmd_Stop*) (**)  OTE  [3,0] (*Cmd_Start*) (**)
+EOR [4,0]
+
+
+(**)
+
+SOR  [0,13] (**) (**)  
+ BST  XIF  [1,0] (*ManualMode*) (**)
+   NXB  
+ BST  XIC  [1,1] (*MoveToPosition_STOP*) (**)
+   NXB  
+ BST  XIF  [1,2] (*MoveToPosition_Mode*) (**)
+   NXB  
+ BST  XIC  [1,3] (*Timer_stop.Q*) (*Q*)
+   NXB  XIP  [1,4] (*AutoTune_STOP*) (**)
+ BND
+
+ BND
+
+ BND
+
+ BND
+  OTE  [2,0] (*Cmd_Stop*) (**)
+EOR [3,0]
+
+
+(**)
+
+SOR  [0,19] (**) (**)  
+ BST  XIF  [1,0] (*MoveToPosition_Mode*) (**)
+   NXB  XIC  [1,1] (*stop_mode*) (**)
+ BND
+  XIO  [2,0] (*Timer_stop.Q*) (*Q*)  
+ BST  OTE  [3,0] (*stop_mode*) (**)
+   NXB  FB  [3,1] (*TON*) (*Timer_stop*) ( (*IN:IN*)(**) (**)  , (*PT:PT*)(*T#50ms*) (**) ; (*Q:Q*)(**) (**)  , (*ET:ET*)(**) (**) )
+ BND
+
+EOR [6,0]
+
+
+(**)
+
+SOR  [0,23] (**) (**)  XIC  [1,0] (*_IO_EM_DO_00*) (*Power*)  FB  [2,0] (*RA_PFx_ENET_STS_CMD*) (*RA_PFx_ENET_STS_CMD_2*) ( (*FBEN:*)(**) (**)  , (*IPAddress:*)(*Cmd_IPAddress*) (**)  , (*UpdateRate_ms:*)(*Cmd_UpdateRate_ms*) (**)  , (*EnetCtrlTO_sec:*)(*Cmd_EnetCtrlTO_sec*) (**)  , (*Stop:*)(*Cmd_Stop*) (**)  , (*Start:*)(*Cmd_Start*) (**)  , (*Jog:*)(*Cmd_Jog*) (**)  , (*ClrFault:*)(*Cmd_ClrFault*) (**)  , (*SetFwd:*)(*Cmd_SetFwd*) (**)  , (*SetRev:*)(*Cmd_SetRev*) (**)  , (*SpeedRef:*)(*Cmd_SpeedRef*) (**)  , (*AccelTime1:*)(*Cmd_DecelTime1*) (**)  , (*DecelTime1:*)(*Cmd_DecelTime1*) (**) ; (*FBENO:*)(**) (**)  , (*FBError:*)(*Sts_FBError*) (**)  , (*CommLoss:*)(*Sts_CommLoss*) (**)  , (*DriveType:*)(*Sts_DriveType*) (**)  , (*DriveFault:*)(*Sts_DriveFault*) (**)  , (*FaultCode:*)(*Sts_FaultCode*) (**)  , (*Ready:*)(*Sts_Ready*) (**)  , (*Active:*)(*Sts_Active*) (**)  , (*CmdFwd:*)(*Sts_CmdFwd*) (**)  , (*CmdRev:*)(*Sts_CmdRev*) (**)  , (*AtRef:*)(*Sts_AtRef*) (**)  , (*CmdSpeed:*)(*Sts_CmdSpeed*) (**)  , (*SpeedFeedback:*)(*Sts_SpeedFeedback*) (**)  , (*OutputCurrent:*)(*Sts_OutputCurrent*) (**)  , (*DCBusVoltage:*)(*Sts_DCBusVoltage*) (**)  , (*OutputVoltage:*)(*Sts_OutputVoltage*) (**) )
+EOR [5,0]
+
+
+(**)
+
+SOR  [0,40] (**) (**)  XIC  [1,0] (*_IO_EM_DO_00*) (*Power*)  FB  [2,0] (*HSC*) (*HSC_1*) ( (*Enable:*)(**) (**)  , (*HscCmd:*)(*mycommand*) (**)  , (*HscAppData:*)(*myappdata*) (**)  , (*HscStsInfo:*)(*myinfo*) (**)  , (*PlsData:*)(*mypls*) (**)  , (*__ADI_PlsData:*)(*0*) (**) ; (*ENO:ENO*)(**) (**)  , (*Sts:*)(*HscStatus*) (**) )
+EOR [5,0]
+
+
+(*Support HSC*)
+
+SOR  [0,47] (**) (**)  FB  [1,0] (*ANY_TO_REAL*) (*39*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*myappdata.Accumulator*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*RealHscAccum*) (**) )  FB  [4,0] (*ABS*) (*40*) ( (*EN:EN*)(**) (**)  , (*IN:IN*)(*RealHscAccum*) (**) ; (*ENO:ENO*)(**) (**)  , (*ABS:Q*)(*AbsRealHscAccum*) (**) )  FB  [7,0] (*ANY_TO_DINT*) (*41*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*AbsRealHscAccum*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*AbsDintHscAccum*) (**) )
+EOR [10,0]
+
+
+(*RESET HSC (  XOA XUNG TICH LUY VA MOVE 4 VAO MYCOMMAND)*)
+
+SOR  [0,50] (**) (**)  XIP  [1,0] (*ResetHsc*) (**)  FB  [2,0] (*1 gain*) (*44*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*-4860*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*myappdata.Accumulator*) (**) )  FB  [5,0] (*1 gain*) (*45*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*4*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*mycommand*) (**) )
+EOR [8,0]
+
+
+(*Convert encoder pulse to position*)
+
+SOR  [0,53] (**) (**)  FB  [1,0] (*/*) (*42*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*AbsRealHscAccum*) (**)  , (*i2:*)(*120.0*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*RawPosition_mm*) (**) )
+EOR [4,0]
+
+
+(*Manual Mode (5 RUNG)*)
+
+SOR  [0,57] (**) (**)  XIC  [1,0] (*_IO_EM_DO_05*) (*run lamp*)  
+ BST  XIC  [2,0] (*ManualRight_BT*) (**)  XIO  [3,0] (*_IO_EM_DI_07*) (*Opto Sen Right*)
+   NXB  XIC  [2,1] (*ManualLeft_BT*) (**)  XIO  [3,1] (*_IO_EM_DI_06*) (*Opto Sen Left*)
+ BND
+  OTE  [4,0] (*ManualMode*) (**)
+EOR [5,0]
+
+
+(**)
+
+SOR  [0,60] (**) (**)  XIC  [1,0] (*ManualLeft_BT*) (**)  XIC  [2,0] (*_IO_EM_DI_06*) (*Opto Sen Left*)  OTE  [3,0] (*ResetHsc*) (**)
+EOR [4,0]
+
+
+(**)
+
+SOR  [0,62] (**) (**)  XIC  [1,0] (*ResetHsc*) (**)  FB  [2,0] (*TON*) (*TON_1*) ( (*IN:IN*)(**) (**)  , (*PT:PT*)(*T#1000ms*) (**) ; (*Q:Q*)(**) (**)  , (*ET:ET*)(**) (**) )  FB  [5,0] (*1 gain*) (*47*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*1*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*mycommand*) (**) )
+EOR [8,0]
+
+
+(**)
+
+SOR  [0,65] (**) (**)  XIC  [1,0] (*ManualMode*) (**)  XIC  [2,0] (*ManualRight_BT*) (**)  FB  [3,0] (*1 gain*) (*43*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*30.0*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*Cmd_SpeedRef*) (**) )  FB  [6,0] (*1 gain*) (*44*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*FALSE*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*Cmd_SetRev*) (**) )  FB  [9,0] (*1 gain*) (*45*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*TRUE*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*Cmd_SetFwd*) (**) )
+EOR [12,0]
+
+
+(**)
+
+SOR  [0,68] (**) (**)  XIC  [1,0] (*ManualMode*) (**)  XIC  [2,0] (*ManualLeft_BT*) (**)  FB  [3,0] (*1 gain*) (*43*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*30.0*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*Cmd_SpeedRef*) (**) )  FB  [6,0] (*1 gain*) (*44*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*FALSE*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*Cmd_SetFwd*) (**) )  FB  [9,0] (*1 gain*) (*45*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*TRUE*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*Cmd_SetRev*) (**) )
+EOR [12,0]
+
+
+(*Move To Position*)
+
+SOR  [0,71] (**) (**)  
+ BST  XIP  [1,0] (*MoveToPosition_BT*) (**)
+   NXB  
+ BST  XIC  [1,1] (*MoveToPosition_Mode*) (**)
+   NXB  XIP  [1,2] (*MoveToPosition_IOT_BT*) (**)
+ BND
+
+ BND
+  FB  [2,0] (*<>*) (*48*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*HMI_Desired_Position*) (**)  , (*i2:*)(*0.0*) (**) ; (*o1:*)(**) (**) )  XIO  [5,0] (*MoveToPosition_STOP*) (**)  XIO  [6,0] (*MoveToPosition_IOT_STOP*) (**)  XIO  [7,0] (*Emergency_BT*) (**)  XIO  [8,0] (*AutoTune_STOP*) (**)  
+ BST  OTE  [9,0] (*MoveToPosition_Mode*) (**)
+   NXB  OTE  [9,1] (*Status*) (**)
+ BND
+
+EOR [10,0]
+
+
+(**)
+
+SOR  [0,75] (**) (**)  XIP  [1,0] (*MoveToPosition_Mode*) (**)  
+ BST  XIC  [2,0] (*MoveToPosition_BT*) (**)
+   NXB  XIC  [2,1] (*MoveToPosition_IOT_BT*) (**)
+ BND
+  FB  [3,0] (*1 gain*) (*66*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*HMI_Desired_Position*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*Desired_Position*) (**) )  FB  [6,0] (***) (*67*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*Desired_Position*) (**)  , (*i2:*)(*120.0*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*Desired_Position_Pulse*) (**) )  
+ BST  FB  [9,0] (*<*) (*58*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*Desired_Position_Pulse*) (**)  , (*i2:*)(*AbsRealHscAccum*) (**) ; (*o1:*)(**) (**) )  
+ BST  FB  [12,0] (*-*) (*68*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*AbsRealHscAccum*) (**)  , (*i2:*)(*Desired_Position_Pulse*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*Distance_Pulse*) (**) )
+   NXB  FB  [12,3] (*1 gain*) (*92*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*1*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*MinMax*) (**) )
+ BND
+
+   NXB  FB  [9,5] (*>*) (*69*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*Desired_Position_Pulse*) (**)  , (*i2:*)(*AbsRealHscAccum*) (**) ; (*o1:*)(**) (**) )  
+ BST  FB  [12,5] (*-*) (*68*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*Desired_Position_Pulse*) (**)  , (*i2:*)(*AbsRealHscAccum*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*Distance_Pulse*) (**) )
+   NXB  FB  [12,8] (*1 gain*) (*89*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*2*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*MinMax*) (**) )
+ BND
+
+ BND
+  
+ BST  FB  [15,0] (*1 gain*) (*70*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*AbsRealHscAccum*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*Current_Encoder_Pulse*) (**) )
+   NXB  
+ BST  FB  [15,2] (*1 gain*) (*87*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*0.0*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*MaxPosition*) (**) )
+   NXB  FB  [15,4] (*1 gain*) (*87*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*500.0*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*MinPosition*) (**) )
+ BND
+
+ BND
+
+EOR [18,0]
+
+
+(**)
+
+SOR  [0,86] (**) (**)  XIC  [1,0] (*MoveToPosition_Mode*) (**)  FB  [2,0] (*-*) (*71*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*AbsRealHscAccum*) (**)  , (*i2:*)(*Current_Encoder_Pulse*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*Current_Distance_Pulse*) (**) )  FB  [5,0] (*ABS*) (*86*) ( (*EN:EN*)(**) (**)  , (*IN:IN*)(*Current_Distance_Pulse*) (**) ; (*ENO:ENO*)(**) (**)  , (*ABS:Q*)(*ABS_current_distance_pulse*) (**) )
+EOR [8,0]
+
+
+(**)
+
+SOR  [0,90] (**) (**)  XIC  [1,0] (*MoveToPosition_Mode*) (**)  
+ BST  FB  [2,0] (*=*) (*93*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*MinMax*) (**)  , (*i2:*)(*2*) (**) ; (*o1:*)(**) (**) )  FB  [5,0] (*>*) (*88*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*RawPosition_mm*) (**)  , (*i2:*)(*MaxPosition*) (**) ; (*o1:*)(**) (**) )  FB  [8,0] (*1 gain*) (*89*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*RawPosition_mm*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*MaxPosition*) (**) )
+   NXB  FB  [2,3] (*=*) (*95*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*MinMax*) (**)  , (*i2:*)(*1*) (**) ; (*o1:*)(**) (**) )  FB  [5,3] (*<*) (*94*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*RawPosition_mm*) (**)  , (*i2:*)(*MinPosition*) (**) ; (*o1:*)(**) (**) )  FB  [8,3] (*1 gain*) (*89*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*RawPosition_mm*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*MinPosition*) (**) )
+ BND
+
+EOR [11,0]
+
+
+(**)
+
+SOR  [0,97] (**) (**)  XIC  [1,0] (*MoveToPosition_Mode*) (**)  
+ BST  FB  [2,0] (*PID*) (*PID_1*) ( (*Enable:*)(**) (**)  , (*PV:*)(*ABS_current_distance_pulse*) (**)  , (*SP:*)(*Distance_Pulse*) (**)  , (*AutoManual:*)(*PID_mode*) (**)  , (*CVManual:*)(*CV_manual*) (**)  , (*CVMax:*)(*50.0*) (**)  , (*CVMin:*)(*-50.0*) (**)  , (*Gains:*)(*pidconfig*) (**)  , (*Control:*)(*False*) (**)  , (*LInit:*)(*FALSE*) (**) ; (*Active:*)(**) (**)  , (*CV:*)(*PID_Speed*) (**)  , (*AbsoluteError:*)(**) (**)  , (*Error:*)(**) (**)  , (*ErrorID:*)(**) (**) )
+   NXB  FB  [2,10] (*ABS*) (*76*) ( (*EN:EN*)(**) (**)  , (*IN:IN*)(*PID_Speed*) (**) ; (*ENO:ENO*)(**) (**)  , (*ABS:Q*)(*Cmd_SpeedRef*) (**) )
+ BND
+
+EOR [5,0]
+
+
+(**)
+
+SOR  [0,110] (**) (**)  XIC  [1,0] (*MoveToPosition_Mode*) (**)  FB  [2,0] (*/*) (*106*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*Distance_Pulse*) (**)  , (*i2:*)(*120.0*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*Distance_mm*) (**) )  FB  [5,0] (*/*) (*107*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*ABS_current_distance_pulse*) (**)  , (*i2:*)(*120.0*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*Current_Distance_mm*) (**) )
+EOR [8,0]
+
+
+(**)
+
+SOR  [0,114] (**) (**)  XIC  [1,0] (*MoveToPosition_Mode*) (**)  
+ BST  FB  [2,0] (*<*) (*84*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*RawPosition_mm*) (**)  , (*i2:*)(*Desired_Position*) (**) ; (*o1:*)(**) (**) )  FB  [5,0] (*1 gain*) (*50*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*TRUE*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*Cmd_SetFwd*) (**) )  FB  [8,0] (*1 gain*) (*51*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*FALSE*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*Cmd_SetRev*) (**) )
+   NXB  FB  [2,3] (*>*) (*90*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*RawPosition_mm*) (**)  , (*i2:*)(*Desired_Position*) (**) ; (*o1:*)(**) (**) )  FB  [5,3] (*1 gain*) (*53*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*True*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*Cmd_SetRev*) (**) )  FB  [8,3] (*1 gain*) (*54*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*FALSE*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*Cmd_SetFwd*) (**) )
+ BND
+
+EOR [11,0]
+
+
+(**)
+
+SOR  [0,121] (**) (**)  XIP  [1,0] (*PIDorAUTOTUNE*) (**)  FB  [2,0] (*1 gain*) (*109*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*False*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*Autotune_mode*) (**) )
+EOR [5,0]
+
+
+(**)
+
+SOR  [0,124] (**) (**)  XIC  [1,0] (*MoveToPosition_Mode*) (**)  FB  [2,0] (*=*) (*55*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*TRUE*) (**)  , (*i2:*)(*PIDorAUTOTUNE*) (**) ; (*o1:*)(**) (**) )  
+ BST  
+ BST  FB  [5,0] (*RA_PID_AUTOTUNE*) (*RA_PID_AUTOTUNE_1*) ( (*FBEN:*)(**) (**)  , (*PV:*)(*ABS_current_distance_pulse*) (**)  , (*SP:*)(*Distance_Pulse*) (**)  , (*AutoTune:*)(*TON_2.Q*) (**)  , (*Abort:*)(*Abort*) (**) ; (*FBENO:*)(**) (**)  , (*IP:*)(*AutotuneIP*) (**)  , (*DN:*)(*Autotune_mode*) (**)  , (*AT_ID:*)(**) (**)  , (*CV:*)(*CV_Autotune*) (**)  , (*Control:*)(**) (**)  , (*Result:*)(**) (**) )  FB  [8,0] (*TON*) (*TON_2*) ( (*IN:IN*)(**) (**)  , (*PT:PT*)(*T#200ms*) (**) ; (*Q:Q*)(**) (**)  , (*ET:ET*)(**) (**) )
+   NXB  XIP  [5,7] (*MoveToPosition_Mode*) (**)  FB  [6,7] (*1 gain*) (*65*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*false*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*PID_mode*) (**) )
+ BND
+
+   NXB  
+ BST  XIC  [5,9] (*AutotuneIP*) (**)  FB  [6,9] (*SCALER*) (*SCALER_1*) ( (*EN:EN*)(**) (**)  , (*Input:*)(*CV_Autotune*) (**)  , (*InputMin:*)(*0.0*) (**)  , (*InputMax:*)(*100.0*) (**)  , (*OutputMin:*)(*-50.0*) (**)  , (*OutputMax:*)(*50.0*) (**) ; (*ENO:ENO*)(**) (**)  , (*Output:*)(*CV_Autotune_Scale*) (**) )  FB  [9,9] (*1 gain*) (*56*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*CV_Autotune_Scale*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*CV_manual*) (**) )
+   NXB  XIP  [5,15] (*Autotune_mode*) (**)  
+ BST  FB  [6,15] (*1 gain*) (*63*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*false*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*PIDorAUTOTUNE*) (**) )
+   NXB  
+ BST  FB  [6,17] (*1 gain*) (*108*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*RA_PID_AUTOTUNE_1.Result.Kc*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*pidconfig.Kc*) (**) )
+   NXB  
+ BST  FB  [6,19] (*1 gain*) (*108*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*RA_PID_AUTOTUNE_1.Result.Ti*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*pidconfig.Ti*) (**) )
+   NXB  FB  [6,21] (*1 gain*) (*108*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*RA_PID_AUTOTUNE_1.Result.Td*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*pidconfig.Td*) (**) )
+ BND
+
+ BND
+
+ BND
+  FB  [9,15] (*1 gain*) (*64*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*true*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*PID_mode*) (**) )  OTE  [12,15] (*AutoTune_STOP*) (**)
+ BND
+
+ BND
+
+EOR [13,0]
+
+
+(**)
+
+SOR  [0,148] (**) (**)  XIC  [1,0] (*MovePara*) (**)  FB  [2,0] (*1 gain*) (*78*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*pidconfig_IOT_DOWN.Kc*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*pidconfig.Kc*) (**) )  FB  [5,0] (*1 gain*) (*80*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*pidconfig_IOT_DOWN.Ti*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*pidconfig.Ti*) (**) )  FB  [8,0] (*1 gain*) (*81*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*pidconfig_IOT_DOWN.Td*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*pidconfig.Td*) (**) )
+EOR [11,0]
+
+
+(**)
+
+SOR  [0,151] (**) (**)  XIC  [1,0] (*_IO_EM_DO_00*) (*Power*)  
+ BST  FB  [2,0] (*PID_Converter_UP*) (*PID_Converter_UP_1*) ( (*EN:EN*)(**) (**)  , (*Kc:*)(*pidconfig.Kc*) (**)  , (*Ti:*)(*pidconfig.Ti*) (**)  , (*Td:*)(*pidconfig.Td*) (**) ; (*ENO:ENO*)(**) (**)  , (*Kp:*)(*Kp_IOT_UP_1*) (**)  , (*Ki:*)(*Ki_IOT_UP_1*) (**)  , (*Kd:*)(*Kd_IOT_UP_1*) (**) )
+   NXB  FB  [2,4] (*PID_Converter_DOWN*) (*PID_Converter_DOWN_1*) ( (*EN:EN*)(**) (**)  , (*Kp:*)(*Kp_IOT_DOWN_1*) (**)  , (*Kd:*)(*Kd_IOT_DOWN_1*) (**)  , (*Ki:*)(*Ki_IOT_DOWN_1*) (**) ; (*ENO:ENO*)(**) (**)  , (*Ti:*)(*pidconfig_IOT_DOWN.Ti*) (**)  , (*Td:*)(*pidconfig_IOT_DOWN.Td*) (**)  , (*Kc:*)(*pidconfig_IOT_DOWN.Kc*) (**) )
+ BND
+
+EOR [5,0]
+EOF
+#end_info
+#info= ID_MAX
+NextId=109
+#end_info
+END_PROGRAM
