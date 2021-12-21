@@ -60,13 +60,13 @@ class TuningPID():
                 if self.debug: 
                     print(f"init model {pathModel} with cuda")
             else: 
-                modelKp = linearRegression(5, 1)
-                modelKp.load_state_dict(torch.load(pathModel), strict=False)
+                model = linearRegression(5, 1)
+                model.load_state_dict(torch.load(pathModel,map_location=torch.device('cpu')), strict=False)
                 if self.debug: 
                     print(f"init model {pathModel} with CPU")
         else: 
-            modelKp = linearRegression(5, 1)
-            modelKp.load_state_dict(torch.load(pathModel), strict=False)
+            model = linearRegression(5, 1)
+            model.load_state_dict(torch.load(pathModel,map_location=torch.device('cpu')), strict=False)
             if self.debug: 
                 print(f"init model {pathModel} with CPU")
 
@@ -98,12 +98,18 @@ class TuningPID():
         self.preProcessData()
         kp = self.predicted(self.modelKp, self.xTestKp )
         self.kp=kp[0]
+        if self.kp > 0.05 or self.kp < 0.0145: 
+            self.kp = 0.04 
         self.preProcessData()
         ki = self.predicted(self.modelKi, self.xTestKi) 
         self.ki=ki[0]
+        if self.ki > 0.013 or self.ki < 0.004: 
+            self.ki = 0.008
         self.preProcessData()
         kd = self.predicted(self.modelKd, self.xTestKd)
         self.kd=kd[0]
+        if self.kd > 0.045 or self.kd < 0.035: 
+            self.kp = 0.038 
 
     def tuningIPD(self): 
         self.preProcessData()
@@ -132,7 +138,7 @@ class TuningPID():
         self.ki=ki[0]
 
 
-    def beginTuning(self,kp=None,ki=None,kd=None,k1=None,k2=None,k3=None,q1=False,q2=False,q3=False,q4=False): 
+    def beginTuning(self,kp=None,ki=None,kd=None,k1=None,k2=None,k3=None,q1=False,q2=False,q3=False,q4=False,k=0.8): 
         self.kp=kp 
         self.ki=ki
         self.kd=kd
@@ -148,18 +154,19 @@ class TuningPID():
         
         #if q1 == True --> What can i do? 
         if q1: 
-            #print ( f"Before tuning kp = {self.kp}, ki = {self.ki}, kd = {self.kd}, Chosse Option 1" )
-            self.k1 = self.k1 - self.k1*0.1
-            self.tuningPID() 
-            if self.debug:
-                print ( f"After tuning kp = {self.kp}, ki = {self.ki}, kd = {self.kd}" )
-            return self.kp, self.ki, self.kd 
+            self.k1 = self.k1 - self.k1*k
 
-        elif q2: 
-            pass 
-        elif q3: 
-            pass
+        if q2: 
+            self.k2 = self.k2 - self.k2*k
+            #self.k1 = self.k1 + self.k1*1
 
+        if q3: 
+            self.k3 = self.k3 - self.k3*k
+
+        self.tuningPID() 
+        if self.debug:
+            print ( f"After tuning kp = {self.kp}, ki = {self.ki}, kd = {self.kd} and k1 = {self.k1}, k2 = {self.k2}, k3 = {self.k3}" )
+        return self.kp, self.ki, self.kd , self.k1, self.k2, self.k3 
         #if q2 == True --> What can i do?  
         #if q3 == True --> What can i do? 
         #if q4 == True --> What can i do?   
