@@ -40,9 +40,9 @@ Contact us if you have any problem
 Contributors names and contact info
 
 
-ex. [Nguyen Dac Quy](https://www.facebook.com/profile.php?id=100008015079767) - Email: quyms101@gmail.com - Da Nang University of Technology
-ex. [Nguyen Tai Duy](https://www.facebook.com/N.TaiDuy) - Email: duynguyentai@gmail.com - Da Nang University of Technology
-ex. [Phan Ben](https://www.facebook.com/benphan110) - Email: phanben110@gmail.com - Da Nang University of Technology
+* [Nguyen Dac Quy](https://www.facebook.com/profile.php?id=100008015079767) - Email: quyms101@gmail.com - Da Nang University of Technology
+* [Nguyen Tai Duy](https://www.facebook.com/N.TaiDuy) - Email: duynguyentai@gmail.com - Da Nang University of Technology
+* [Phan Ben](https://www.facebook.com/benphan110) - Email: phanben110@gmail.com - Da Nang University of Technology
 
 
 ## License
