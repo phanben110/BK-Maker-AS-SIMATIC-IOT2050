@@ -371,10 +371,13 @@ while True :
                 Tu = 1.2*Ku/ki2
 
                 #Kp_SO = Ku/3
-                Kp_SO = Ku*0.5
-                Ki_SO = (2/3)*Ku/Tu
+                Kp_SO = Ku*0.55
+                Ki_SO = ((2/3)*Ku/Tu)*1.25
+                #Ki_SO = (2/3)*Ku/Tu
                 Td_SO = Tu/3
-                Kd_SO = Kp_SO/Td_SO
+                #Kd_SO = Kp_SO/Td_SO
+                Kd_SO = (Kp_SO/Td_SO)*1.8
+
                 sendDataAutotune(idDevice,"ZNTime2",Kp_SO,Ki_SO,Kd_SO,pid=True)
                 break  
 
@@ -409,10 +412,13 @@ while True :
                 Tu = 1.2*Ku/ki3
 
                 #Kp_NO = 0.2*Ku
-                Kp_NO = 0.4*Ku
-                Ki_NO = (2/5)*Ku/Tu
+                Kp_NO = 0.5*Ku
+                Ki_NO = ((2/3)*Ku/Tu)*1.1
                 Td_NO = Tu/3
-                Kd_NO = Kp_NO/Td_NO
+                Kd_NO = (Kp_NO/Td_NO)*1.6
+                #Ki_NO = (2/5)*Ku/Tu
+                #Td_NO = Tu/3
+                #Kd_NO = Kp_NO/Td_NO
 
                 sendDataAutotune(idDevice,"ZNTime3",Kp_NO,Ki_NO,Kd_NO,pid=True)
                 break 
